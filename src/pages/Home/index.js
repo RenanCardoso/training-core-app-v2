@@ -15,7 +15,7 @@ export default function Home() {
   useEffect(() => {
     async function loadProducts() {
 
-      const response = await api.get('/products')
+      const response = await api.get('/avaliacao-medica')
 
       console.log(response.data)
 

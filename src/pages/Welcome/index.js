@@ -41,6 +41,7 @@ export default function Welcome(props) {
       const response = await api.post('/login', credentials)
 
       const user = response.data
+      console.log(user)
 
       await saveUser(user)
 
@@ -66,7 +67,7 @@ export default function Welcome(props) {
 
       <Title>Bem-vindo</Title>
       <TextInformation>
-        Para continuar, precisamos que você informe seu e-mail e senha
+        Para entrar, precisamos que você informe seu e-mail e senha
       </TextInformation>
 
       {!!errorMessage && <Error>{errorMessage}</Error>}
