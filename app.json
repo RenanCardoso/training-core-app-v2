@@ -1,6 +1,10 @@
 {
+  "name": "APIReactNative",
+  "displayName": "APIReactNative",
+  
   "expo": {
-    "name": "first_reactnative",
+    "name": "APIReactNative",
+    "displayName": "APIReactNative",
     "slug": "first_reactnative",
     "version": "1.0.0",
     "orientation": "portrait",
