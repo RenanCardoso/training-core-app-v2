@@ -5,8 +5,8 @@ import { Alert } from 'react-native'
 import { getUser, navigate, deleteUser } from '../utils'
 
 const api = axios.create({
-  // baseURL: 'https://api-jwt-tutorial.herokuapp.com',
-  baseURL: 'http://192.168.31.188:8001/api',
+  // baseURL: 'http://192.168.31.188:8001/api',
+  baseURL: 'http://192.168.1.7:8001/api',
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
@@ -33,7 +33,7 @@ api.interceptors.response.use(
     ) {
       Alert.alert(
         'Aviso',
-        'Não foi possível conectar aos nossos servidores, sem conexão à internet',
+        'Não foi possível conectar aos nossos servidores, sem conexão à internet.',
         [ { text: 'OK' } ],
         { cancelable: false },
       )
@@ -50,6 +50,14 @@ api.interceptors.response.use(
         })
 
       return axios(requestConfig)
+    } 
+    else if(error.response.status === 500){
+      Alert.alert(
+        'Aviso',
+        'Não foi possível conectar aos nossos servidores. Caso persista contacte o administador.',
+        [ { text: 'OK' } ],
+        { cancelable: false },
+      )
     }
 
     return Promise.reject(error)
