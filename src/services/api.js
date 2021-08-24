@@ -5,8 +5,8 @@ import { Alert } from 'react-native'
 import { getUser, navigate, deleteUser } from '../utils'
 
 const api = axios.create({
-  // baseURL: 'https://api-jwt-tutorial.herokuapp.com',
-  baseURL: 'http://192.168.31.188:8001/api',
+  // baseURL: 'http://192.168.31.188:8001/api',
+  baseURL: 'http://192.168.1.7:8001/api',
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',

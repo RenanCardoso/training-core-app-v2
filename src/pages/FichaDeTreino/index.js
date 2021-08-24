@@ -12,33 +12,23 @@ import { Icon, Product, Tabs } from '../../components/';
 const { width } = Dimensions.get('screen');
 import products from '../../constants/products';
 
-export default function Home() {
+export default function FichaDeTreino() {
   const [data, setData] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
-    async function loadProducts() {
 
-      const response = await api.get('/avaliacao-medica')
+    async function loadFichaDeTreino() {
+
+      const response = await api.get('/ficha-de-treino')
 
       console.log(response.data)
 
       setData(response.data.products);
     }
 
-    loadProducts();
+    loadFichaDeTreino();
   }, []);
-
-  async function loadFichaDeTreino() {
-
-    const response = await api.get('/ficha-de-treino')
-
-    console.log(response.data)
-
-    setData(response.data.products);
-  }
-
-  loadFichaDeTreino();
 
   // renderListItem = ({ item }) => <ProductItem product={item} />
 
@@ -46,20 +36,21 @@ export default function Home() {
   return (
     <Container>
       {/* Tabs */}
-      <Block row style={styles.tabs}>
+      {/* <Block row style={styles.tabs}>
         <Button shadowless style={[styles.tab, styles.divider]} onPress={() => navigation.navigate('App')}>
           <Block row middle>
-            <Icon name="directions-run" family="MaterialIcons" style={{ paddingRight: 6 }} />
+            <Icon name="grid" family="feather" style={{ paddingRight: 6 }} />
             <Text size={16} style={styles.tabTitle}>Treino do Dia</Text>
           </Block>
         </Button>
-        <Button shadowless style={styles.tab} onPress={loadFichaDeTreino}>
+        <Button shadowless style={styles.tab} onPress={() => navigation.navigate('App')}>
           <Block row middle>
-            <Icon name="solution1" family="AntDesign" style={{ paddingRight: 6 }} />
+            <Icon name="grid" family="feather" style={{ paddingRight: 6 }} />
             <Text size={16} style={styles.tabTitle}>Ficha de Treino</Text>
           </Block>
         </Button>
-      </Block>
+      </Block> */}
+      <Text>Ficha de Treino</Text>
       {/* Fim Tabs */}
 
       {/* <ProductList
@@ -73,10 +64,10 @@ export default function Home() {
   );
 }
 
-Home.navigationOptions = ({ navigation }) => {
+FichaDeTreino.navigationOptions = ({ navigation }) => {
 
   return {
-    title: 'Home',
+    title: 'FichaDeTreino',
     headerBackTitleVisible: true,
     headerRight: () => (
       <TouchableOpacity
@@ -94,14 +85,14 @@ Home.navigationOptions = ({ navigation }) => {
 
 };
 
-Home.propTypes = {
+FichaDeTreino.propTypes = {
   navigation: PropTypes.shape({
     dispatch: PropTypes.func,
   }).isRequired,
 };
 
 const styles = StyleSheet.create({
-  home: {
+  FichaDeTreino: {
     width: width,
   },
   search: {
@@ -130,7 +121,7 @@ const styles = StyleSheet.create({
   },
   tab: {
     backgroundColor: theme.COLORS.TRANSPARENT,
-    width: width * 0.46,
+    width: width * 0.50,
     borderRadius: 0,
     borderWidth: 0,
     height: 24,
