@@ -32,7 +32,7 @@ export default function AvaliacaoMedica() {
   }, []);
 
   return (
-    <Container>
+    <Container style={styles.DataTable}>
 
       <ScrollView>
         <DataTable>
@@ -42,87 +42,87 @@ export default function AvaliacaoMedica() {
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Altura </Text></DataTable.Cell>
-            <DataTable.Cell>{data['altura'] != (undefined || null) ? data['altura'] : ''}</DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>{data['altura'] != (undefined || null) ? data['altura'] : ''}</Text></DataTable.Cell>
           </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Peso </Text></DataTable.Cell>
-            <DataTable.Cell>{data['peso'] != (undefined || null) ? data['peso'] : ''}</DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>{data['peso'] != (undefined || null) ? data['peso'] : ''}</Text></DataTable.Cell>
           </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>IMC </Text></DataTable.Cell>
-            <DataTable.Cell>{data['imc'] != (undefined || null) ? data['imc'] : ''}</DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>{data['imc'] != (undefined || null) ? data['imc'] : ''}</Text></DataTable.Cell>
           </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Medida Biceps Direito </Text></DataTable.Cell>
-            <DataTable.Cell>{data['medidabicepsdir'] != (undefined || null) ? data['medidabicepsdir'] : ''}</DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>{data['medidabicepsdir'] != (undefined || null) ? data['medidabicepsdir'] : ''}</Text></DataTable.Cell>
           </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Medida Biceps Esquerdo </Text></DataTable.Cell>
-            <DataTable.Cell>{data['medidabicepsesq'] != (undefined || null) ? data['medidabicepsesq'] : ''}</DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>{data['medidabicepsesq'] != (undefined || null) ? data['medidabicepsesq'] : ''}</Text></DataTable.Cell>
           </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Medida Costas </Text></DataTable.Cell>
-            <DataTable.Cell>{data['medidacostas'] != (undefined || null) ? data['medidacostas'] : ''}</DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>{data['medidacostas'] != (undefined || null) ? data['medidacostas'] : ''}</Text></DataTable.Cell>
           </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Medida Coxa Direita </Text></DataTable.Cell>
-            <DataTable.Cell>{data['medidacoxadir'] != (undefined || null) ? data['medidacoxadir'] : ''}</DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>{data['medidacoxadir'] != (undefined || null) ? data['medidacoxadir'] : ''}</Text></DataTable.Cell>
           </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Medida Coxa Esquerda </Text></DataTable.Cell>
-            <DataTable.Cell>{data['medidacoxaesq'] != (undefined || null) ? data['medidacoxaesq'] : ''}</DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>{data['medidacoxaesq'] != (undefined || null) ? data['medidacoxaesq'] : ''}</Text></DataTable.Cell>
           </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Medida Ombro </Text></DataTable.Cell>
-            <DataTable.Cell>{data['medidaombro'] != (undefined || null) ? data['medidaombro'] : ''}</DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>{data['medidaombro'] != (undefined || null) ? data['medidaombro'] : ''}</Text></DataTable.Cell>
           </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Medida Panturrilha Direito </Text></DataTable.Cell>
-            <DataTable.Cell>{data['medidapanturrilhadir'] != (undefined || null) ? data['medidapanturrilhadir'] : ''}</DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>{data['medidapanturrilhadir'] != (undefined || null) ? data['medidapanturrilhadir'] : ''}</Text></DataTable.Cell>
           </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Medida Panturrilha Esquerdo </Text></DataTable.Cell>
-            <DataTable.Cell>{data['medidapanturrilhaesq'] != (undefined || null) ? data['medidapanturrilhaesq'] : ''}</DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>{data['medidapanturrilhaesq'] != (undefined || null) ? data['medidapanturrilhaesq'] : ''}</Text></DataTable.Cell>
           </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Medida Triceps Direito </Text></DataTable.Cell>
-            <DataTable.Cell>{data['medidatricepsdir'] != (undefined || null) ? data['medidatricepsdir'] : ''}</DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>{data['medidatricepsdir'] != (undefined || null) ? data['medidatricepsdir'] : ''}</Text></DataTable.Cell>
           </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Medida Triceps Esquerdo </Text></DataTable.Cell>
-            <DataTable.Cell>{data['medidatricepsesq'] != (undefined || null) ? data['medidatricepsesq'] : ''}</DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>{data['medidatricepsesq'] != (undefined || null) ? data['medidatricepsesq'] : ''}</Text></DataTable.Cell>
           </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Percentual de Gordura Corporal </Text></DataTable.Cell>
-            <DataTable.Cell>{data['percgorduracorporal'] != (undefined || null) ? data['percgorduracorporal'] : ''}</DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>{data['percgorduracorporal'] != (undefined || null) ? data['percgorduracorporal'] : ''}</Text></DataTable.Cell>
           </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Possui Lesão? </Text></DataTable.Cell>
-            <DataTable.Cell>{data['flpossuilesao'] != (undefined || null) ? data['flpossuilesao'] : ''}</DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>{data['flpossuilesao'] != (undefined || null) ? data['flpossuilesao'] : ''}</Text></DataTable.Cell>
           </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Deficiente Físico? </Text></DataTable.Cell>
-            <DataTable.Cell>{data['fldeficiente'] != (undefined || null) ? data['fldeficiente'] : ''}</DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>{data['fldeficiente'] != (undefined || null) ? data['fldeficiente'] : ''}</Text></DataTable.Cell>
           </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Observação </Text></DataTable.Cell>
-            <DataTable.Cell>{data['observacao'] != (undefined || null) ? data['observacao'] : ''}</DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>{data['observacao'] != (undefined || null) ? data['observacao'] : ''}</Text></DataTable.Cell>
           </DataTable.Row>
           {/* <DataTable.Pagination
       page={page}
@@ -217,4 +217,11 @@ const styles = StyleSheet.create({
     width: width - theme.SIZES.BASE * 2,
     paddingVertical: theme.SIZES.BASE * 2,
   },
+  DataTable: {
+    marginBottom: 2,
+    backgroundColor: '#45546c',
+  },
+  text: {
+    color: "#ffffff"
+  }
 });

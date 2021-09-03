@@ -36,51 +36,51 @@ export default function FichaDeTreino() {
   }, []);
 
   return (
-    <Container>
+    <Container style={styles.DataTable}>
 
-      <DataTable>
-        <DataTable.Header>
+      <DataTable style={styles.DataTable}>
+        <DataTable.Header style={styles.DataTableHeader}>
           <DataTable.Title><Text style={styles.text} p>{data['nome'] != (undefined || null) ? data['nome'] : ''}</Text></DataTable.Title>
         </DataTable.Header>
 
         <DataTable.Row>
           <DataTable.Cell><Text style={styles.text}>Descrição </Text></DataTable.Cell>
-          <DataTable.Cell>{data['descricao'] != (undefined || null) ? data['descricao'] : ''}</DataTable.Cell>
+          <DataTable.Cell><Text style={styles.text}>{data['descricao'] != (undefined || null) ? data['descricao'] : ''}</Text></DataTable.Cell>
         </DataTable.Row>
 
         <DataTable.Row>
           <DataTable.Cell><Text style={styles.text}>Data Início </Text></DataTable.Cell>
-          <DataTable.Cell>{data['datainicio'] != (undefined || null) ? data['datainicio'] : ''}</DataTable.Cell>
+          <DataTable.Cell><Text style={styles.text}>{data['datainicio'] != (undefined || null) ? data['datainicio'] : ''}</Text></DataTable.Cell>
         </DataTable.Row>
 
         <DataTable.Row>
           <DataTable.Cell><Text style={styles.text}>Data Fim </Text></DataTable.Cell>
-          <DataTable.Cell>{data['datafim'] != (undefined || null) ? data['datafim'] : ''}</DataTable.Cell>
+          <DataTable.Cell><Text style={styles.text}>{data['datafim'] != (undefined || null) ? data['datafim'] : ''}</Text></DataTable.Cell>
         </DataTable.Row>
 
         <DataTable.Row>
           <DataTable.Cell><Text style={styles.text}>Iniciante? </Text></DataTable.Cell>
-          <DataTable.Cell>{data['fliniciante'] != (undefined || null) ? data['fliniciante'] : ''}</DataTable.Cell>
+          <DataTable.Cell><Text style={styles.text}>{data['fliniciante'] != (undefined || null) ? data['fliniciante'] : ''}</Text></DataTable.Cell>
         </DataTable.Row>
 
         <DataTable.Row>
           <DataTable.Cell><Text style={styles.text}>Objetivo do Treino </Text></DataTable.Cell>
-          <DataTable.Cell>{dificuldadetreino['nome'] != (undefined || null) ? dificuldadetreino['nome'] : ''}</DataTable.Cell>
+          <DataTable.Cell><Text style={styles.text}>{dificuldadetreino['nome'] != (undefined || null) ? dificuldadetreino['nome'] : ''}</Text></DataTable.Cell>
         </DataTable.Row>
 
         <DataTable.Row>
           <DataTable.Cell><Text style={styles.text}>Dificuldade do Treino </Text></DataTable.Cell>
-          <DataTable.Cell>{objtreino['nome'] != (undefined || null) ? objtreino['nome'] : ''}</DataTable.Cell>
+          <DataTable.Cell><Text style={styles.text}>{objtreino['nome'] != (undefined || null) ? objtreino['nome'] : ''}</Text></DataTable.Cell>
         </DataTable.Row>
 
         <DataTable.Row>
           <DataTable.Cell><Text style={styles.text}>Tempo de Treino Aprox. </Text></DataTable.Cell>
-          <DataTable.Cell>{data['tempotreino'] != (undefined || null) ? data['tempotreino'] : ''}</DataTable.Cell>
+          <DataTable.Cell><Text style={styles.text}>{data['tempotreino'] != (undefined || null) ? data['tempotreino'] : ''}</Text></DataTable.Cell>
         </DataTable.Row>
 
         <DataTable.Row>
           <DataTable.Cell><Text style={styles.text}>Status </Text></DataTable.Cell>
-          <DataTable.Cell>{data['status'] != (undefined || null) ? data['status'] : ''}</DataTable.Cell>
+          <DataTable.Cell><Text style={styles.text}>{data['status'] != (undefined || null) ? data['status'] : ''}</Text></DataTable.Cell>
         </DataTable.Row>
 
         {/* <DataTable.Pagination
@@ -179,5 +179,15 @@ const styles = StyleSheet.create({
     margin: 10,
     backgroundColor: '#ebedef',
     borderRadius: 10
+  },
+  DataTableHeader: {
+    backgroundColor: '#3c4b64',
+  },
+  DataTable: {
+    marginBottom: 2,
+    backgroundColor: '#45546c',
+  },
+  text: {
+    color: "#ffffff"
   }
 });
