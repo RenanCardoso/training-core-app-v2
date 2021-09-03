@@ -42,7 +42,7 @@ export default function Welcome(props) {
       const response = await api.post('/login', credentials)
 
       const user = response.data
-      console.log(user)
+      //console.log(user)
 
       await saveUser(user)
 

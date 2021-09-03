@@ -6,33 +6,17 @@ import Home from './pages/Home'
 import FichaDeTreino from './pages/FichaDeTreino'
 import AuthLoadingScreen from './pages/AuthLoadingScreen'
 
-const FichaDeTreinoStack = createStackNavigator(
-  {
-    FichaDeTreino,
-  },
-  {
-    initialRouteName: 'FichaDeTreino',
-    headerMode: 'screen',
-    // App: StackNavigatorContainer,
-    defaultNavigationOptions: {
-      headerTintColor: '#000',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-      },
-    },
-  },
-);
-
 const StackNavigator = createStackNavigator(
   {
     Home,
+    FichaDeTreino,
+    AuthLoading: AuthLoadingScreen,
   },
   {
     initialRouteName: 'Home',
-    headerMode: 'screen',
-    App: FichaDeTreinoStack,
+    headerMode: 'none',
     defaultNavigationOptions: {
-      headerTintColor: '#000',
+      headerTintColor: '#000000',
       headerTitleStyle: {
         fontWeight: 'bold',
       },
@@ -60,7 +44,6 @@ const RootStack = createSwitchNavigator(
     AuthLoading: AuthLoadingScreen,
     Auth: AuthStack,
     App: StackNavigatorContainer,
-    // Auth: AuthStack
   },
   {
     initialRouteName: 'AuthLoading',

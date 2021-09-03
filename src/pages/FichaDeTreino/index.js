@@ -6,14 +6,17 @@ import api from '../../services/api'
 import { deleteUser } from '../../utils'
 
 import { Container, Title, ButtonText, ProductList } from './styles'
-import { Button, Block, Text, Input, theme } from 'galio-framework';
+import { Button, Block, Text, Input, theme, Card } from 'galio-framework';
 import { Icon, Product, Tabs } from '../../components/';
+import { DataTable } from 'react-native-paper';
 
 const { width } = Dimensions.get('screen');
 import products from '../../constants/products';
 
 export default function FichaDeTreino() {
   const [data, setData] = useState([]);
+  const [dificuldadetreino, setdificuldadetreino] = useState([]);
+  const [objtreino, setObjTreino] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
@@ -22,44 +25,77 @@ export default function FichaDeTreino() {
 
       const response = await api.get('/ficha-de-treino')
 
-      console.log(response.data)
+      setData(response.data['data'][0]);
+      // console.log(response.data['data'][0]['iddificuldadetreino'])
 
-      setData(response.data.products);
+      setdificuldadetreino(response.data['data'][0]['iddificuldadetreino']);
+      setObjTreino(response.data['data'][0]['idobjetivotreino']);
     }
 
     loadFichaDeTreino();
   }, []);
 
-  // renderListItem = ({ item }) => <ProductItem product={item} />
-
-
   return (
     <Container>
-      {/* Tabs */}
-      {/* <Block row style={styles.tabs}>
-        <Button shadowless style={[styles.tab, styles.divider]} onPress={() => navigation.navigate('App')}>
-          <Block row middle>
-            <Icon name="grid" family="feather" style={{ paddingRight: 6 }} />
-            <Text size={16} style={styles.tabTitle}>Treino do Dia</Text>
-          </Block>
-        </Button>
-        <Button shadowless style={styles.tab} onPress={() => navigation.navigate('App')}>
-          <Block row middle>
-            <Icon name="grid" family="feather" style={{ paddingRight: 6 }} />
-            <Text size={16} style={styles.tabTitle}>Ficha de Treino</Text>
-          </Block>
-        </Button>
-      </Block> */}
-      <Text>Ficha de Treino</Text>
-      {/* Fim Tabs */}
 
-      {/* <ProductList
-        data={data}
-        keyExtractor={item => String(item.id)}
-        renderItem={renderListItem}
-        // onRefresh={loadFichaDeTreino}
-        // refreshing={refreshing}
+      <DataTable>
+        <DataTable.Header>
+          <DataTable.Title><Text style={styles.text} p>{data['nome'] != (undefined || null) ? data['nome'] : ''}</Text></DataTable.Title>
+        </DataTable.Header>
+
+        <DataTable.Row>
+          <DataTable.Cell><Text style={styles.text}>Descrição </Text></DataTable.Cell>
+          <DataTable.Cell>{data['descricao'] != (undefined || null) ? data['descricao'] : ''}</DataTable.Cell>
+        </DataTable.Row>
+
+        <DataTable.Row>
+          <DataTable.Cell><Text style={styles.text}>Data Início </Text></DataTable.Cell>
+          <DataTable.Cell>{data['datainicio'] != (undefined || null) ? data['datainicio'] : ''}</DataTable.Cell>
+        </DataTable.Row>
+
+        <DataTable.Row>
+          <DataTable.Cell><Text style={styles.text}>Data Fim </Text></DataTable.Cell>
+          <DataTable.Cell>{data['datafim'] != (undefined || null) ? data['datafim'] : ''}</DataTable.Cell>
+        </DataTable.Row>
+
+        <DataTable.Row>
+          <DataTable.Cell><Text style={styles.text}>Iniciante? </Text></DataTable.Cell>
+          <DataTable.Cell>{data['fliniciante'] != (undefined || null) ? data['fliniciante'] : ''}</DataTable.Cell>
+        </DataTable.Row>
+
+        <DataTable.Row>
+          <DataTable.Cell><Text style={styles.text}>Objetivo do Treino </Text></DataTable.Cell>
+          <DataTable.Cell>{dificuldadetreino['nome'] != (undefined || null) ? dificuldadetreino['nome'] : ''}</DataTable.Cell>
+        </DataTable.Row>
+
+        <DataTable.Row>
+          <DataTable.Cell><Text style={styles.text}>Dificuldade do Treino </Text></DataTable.Cell>
+          <DataTable.Cell>{objtreino['nome'] != (undefined || null) ? objtreino['nome'] : ''}</DataTable.Cell>
+        </DataTable.Row>
+
+        <DataTable.Row>
+          <DataTable.Cell><Text style={styles.text}>Tempo de Treino Aprox. </Text></DataTable.Cell>
+          <DataTable.Cell>{data['tempotreino'] != (undefined || null) ? data['tempotreino'] : ''}</DataTable.Cell>
+        </DataTable.Row>
+
+        <DataTable.Row>
+          <DataTable.Cell><Text style={styles.text}>Status </Text></DataTable.Cell>
+          <DataTable.Cell>{data['status'] != (undefined || null) ? data['status'] : ''}</DataTable.Cell>
+        </DataTable.Row>
+
+        {/* <DataTable.Pagination
+        page={page}
+        numberOfPages={3}
+        onPageChange={(page) => setPage(page)}
+        label="1-2 of 6"
+        optionsPerPage={optionsPerPage}
+        itemsPerPage={itemsPerPage}
+        setItemsPerPage={setItemsPerPage}
+        showFastPagination
+        optionsLabel={'Rows per page'}
       /> */}
+      
+      </DataTable>
     </Container>
   );
 }
@@ -139,4 +175,9 @@ const styles = StyleSheet.create({
     width: width - theme.SIZES.BASE * 2,
     paddingVertical: theme.SIZES.BASE * 2,
   },
+  blockcard: {
+    margin: 10,
+    backgroundColor: '#ebedef',
+    borderRadius: 10
+  }
 });

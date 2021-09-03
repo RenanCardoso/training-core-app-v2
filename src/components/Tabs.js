@@ -8,7 +8,7 @@ import materialTheme from '../constants/Theme';
 const defaultMenu = [
   { id: 'treinododia', title: 'Treino do Dia', },
   { id: 'fichadetreino', title: 'Ficha de Treino', },
-  // { id: 'cars', title: 'Cars', },
+  { id: 'meusdados', title: 'Meus Dados', },
   // { id: 'motocycles', title: 'Motocycles', },
 ];
 

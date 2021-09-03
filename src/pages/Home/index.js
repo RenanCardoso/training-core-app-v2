@@ -1,16 +1,30 @@
 import React, { useState, useEffect } from 'react'
 import { TouchableOpacity, StyleSheet, Dimensions, ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
-
 import api from '../../services/api'
 import { deleteUser } from '../../utils'
-
 import { Container, Title, ButtonText, ProductList } from './styles'
-import { Button, Block, Text, Input, theme } from 'galio-framework';
-import { Icon, Product, Tabs } from '../../components/';
-
+import { Button, Block, Text, Input, View, theme } from 'galio-framework';
 const { width } = Dimensions.get('screen');
 import products from '../../constants/products';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Icon, Header, DrawerCustomItem } from '../../components';
+import { Images, materialTheme } from "../../constants";
+
+import CustomDrawerContent from '../../navigation/Menu';
+
+import FichadeTreinoScreen from '../FichaDeTreino'
+import MeusDadosScreen from '../MeusDados/'
+import AvaliacaoMedicaScreen from '../AvaliacaoMedica/'
+import TodosExerciciosScreen from '../TodosExercicios/'
+import ExercicioDoDiaScreen from '../ExercicioDoDia/'
+import AuthLoadingScreen from '../AuthLoadingScreen'
+
+
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem, } from '@react-navigation/drawer';
+import { color } from 'react-native-reanimated'
+
+
 
 export default function Home() {
   const [data, setData] = useState([]);
@@ -19,11 +33,11 @@ export default function Home() {
   useEffect(() => {
     async function loadProducts() {
 
-      const response = await api.get('/avaliacao-medica')
+      // const response = await api.get('/avaliacao-medica')
 
-      console.log(response.data)
+//      console.log(response.data)
 
-      setData(response.data.products);
+      // setData(response.data.products);
     }
 
     loadProducts();
@@ -31,37 +45,148 @@ export default function Home() {
 
   async function loadFichaDeTreino() {
 
-    const response = await api.get('/ficha-de-treino')
+//    const response = await api.get('/ficha-de-treino')
 
-    console.log(response.data)
+    // console.log(response.data)
 
-    setData(response.data.products);
+    // setData(response.data.products);
   }
 
   loadFichaDeTreino();
 
-  // renderListItem = ({ item }) => <ProductItem product={item} />
+  function CustomDrawerContent(props) {
+    return (
+      <DrawerContentScrollView {...props}>
+        <DrawerItemList {...props} />
+        <DrawerItem
+//          onPress={(props) => {
+            // Navigate using the `navigation` prop that you received
+            // props.navigation.navigate('AuthLoadingScreen');
+//             props.navigation.navigate('Auth')
+//          }}
+          label={
+            ({ focused, color }) =>
+              <Text style={{ color: "#ffffff" }}>{focused ? 'Sair' : 'Sair'}</Text>
+          }
+          icon={({ focused, size }) =>
+            <MaterialCommunityIcons
+              size={26}
+              color={"#ffffff"}
+              style={{ marginLeft: 6, marginRight: 4 }}
+              name={focused ? 'logout' : 'logout'}
+              focused={true}
+            />}
+        />
+      </DrawerContentScrollView>
+    );
+  }
 
+  const Drawer = createDrawerNavigator();
+
+  function MyDrawer() {
+    return (
+      <Drawer.Navigator
+        drawerContent={(props) => <CustomDrawerContent {...props} />}
+        initialRouteName="ExercicioDoDia"
+        screenOptions={{
+          drawerStyle: {
+            backgroundColor: '#3c4b64',
+            // width: 240,
+          }
+        }}
+      >
+        <Drawer.Screen
+          name="Exercício Do Dia"
+          component={ExercicioDoDiaScreen}
+          options={{
+            drawerLabel: ({ focused, color }) => (
+              <Text color={focused ? "#ffffff" : "#ffffff"}>Exercício Do Dia</Text>
+            ),
+            drawerIcon: ({ focused, size }) => (
+              <MaterialCommunityIcons
+                name="weight-lifter"
+                size={size}
+                color={focused ? "#ffffff" : theme.COLORS.MUTED}
+                style={{ marginLeft: 4, marginRight: 4 }}
+              />
+            ),
+          }}
+        />
+        <Drawer.Screen
+          name="Todos Exercícios"
+          component={TodosExerciciosScreen}
+          options={{
+            drawerLabel: ({ focused, color }) => (
+              <Text color={focused ? "#ffffff" : "#ffffff"}>Todos Exercícios</Text>
+            ),
+            drawerIcon: ({ focused, size }) => (
+              <MaterialCommunityIcons
+                name="arm-flex"
+                size={size}
+                color={focused ? "#ffffff" : theme.COLORS.MUTED}
+                style={{ marginLeft: 4, marginRight: 4 }}
+              />
+            ),
+          }}
+        />
+        <Drawer.Screen
+          name="Ficha De Treino"
+          component={FichadeTreinoScreen}
+          options={{
+            drawerLabel: ({ focused, color }) => (
+              <Text color={focused ? "#ffffff" : "#ffffff"}>Ficha de Treino</Text>
+            ),
+            drawerIcon: ({ focused, size }) => (
+              <MaterialCommunityIcons
+                name="card-account-details"
+                size={size}
+                color={focused ? "#ffffff" : theme.COLORS.MUTED}
+                style={{ marginLeft: 4, marginRight: 4 }}
+              />
+            ),
+          }}
+        />
+        <Drawer.Screen
+          name="Meus Dados"
+          component={MeusDadosScreen}
+          options={{
+            drawerLabel: ({ focused, color }) => (
+              <Text color={focused ? "#ffffff" : "#ffffff"}>Meus Dados</Text>
+            ),
+            drawerIcon: ({ focused, size }) => (
+              <MaterialCommunityIcons
+                name="account"
+                size={size}
+                color={focused ? "#ffffff" : theme.COLORS.MUTED}
+                style={{ marginLeft: 4, marginRight: 4 }}
+              />
+            ),
+          }}
+        />
+        <Drawer.Screen
+          name="Avaliação Médica"
+          component={AvaliacaoMedicaScreen}
+          options={{
+            drawerLabel: ({ focused, color }) => (
+              <Text color={focused ? "#ffffff" : "#ffffff"}>Avaliação Médica</Text>
+            ),
+            drawerIcon: ({ focused, size }) => (
+              <MaterialCommunityIcons
+                name="heart"
+                size={size}
+                color={focused ? "#ffffff" : theme.COLORS.MUTED}
+                style={{ marginLeft: 4, marginRight: 4 }}
+              />
+            ),
+          }}
+        />
+      </Drawer.Navigator>
+    )
+  }
 
   return (
     <Container>
-      {/* Tabs */}
-      <Block row style={styles.tabs}>
-        <Button shadowless style={[styles.tab, styles.divider]} onPress={() => navigation.navigate('App')}>
-          <Block row middle>
-            <Icon name="directions-run" family="MaterialIcons" style={{ paddingRight: 6 }} />
-            <Text size={16} style={styles.tabTitle}>Treino do Dia</Text>
-          </Block>
-        </Button>
-        <Button shadowless style={styles.tab} onPress={loadFichaDeTreino}>
-          <Block row middle>
-            <Icon name="solution1" family="AntDesign" style={{ paddingRight: 6 }} />
-            <Text size={16} style={styles.tabTitle}>Ficha de Treino</Text>
-          </Block>
-        </Button>
-      </Block>
-      {/* Fim Tabs */}
-
+      <MyDrawer />
       {/* <ProductList
         data={data}
         keyExtractor={item => String(item.id)}
@@ -70,6 +195,7 @@ export default function Home() {
         // refreshing={refreshing}
       /> */}
     </Container>
+
   );
 }
 
