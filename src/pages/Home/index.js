@@ -187,13 +187,6 @@ export default function Home() {
   return (
     <Container>
       <MyDrawer />
-      {/* <ProductList
-        data={data}
-        keyExtractor={item => String(item.id)}
-        renderItem={renderListItem}
-        // onRefresh={loadFichaDeTreino}
-        // refreshing={refreshing}
-      /> */}
     </Container>
 
   );

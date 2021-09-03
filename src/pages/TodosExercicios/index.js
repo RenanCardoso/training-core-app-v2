@@ -82,7 +82,6 @@ export default function TodosExercicios() {
             >Iniciar Treino</Button>
           </View>
         </DataTable.Header>
-        
       </DataTable>
     )
 
@@ -271,5 +270,4 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: -5
   },
-  
 });
