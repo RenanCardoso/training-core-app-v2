@@ -16,6 +16,9 @@ import { DataTable } from 'react-native-paper';
 export default function ExercicioDoDia() {
   const [data, setData] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [exercicio, setExercicio] = useState([]);
+  const [agrumapamento_musc, setAgrupMusc] = useState([]);
+  const [aparelho, setAparelho] = useState([]);
 
   useEffect(() => {
 
@@ -28,16 +31,15 @@ export default function ExercicioDoDia() {
       const response2 = await api.get('/ficha-de-treino/' + fichadetreino + '/treino-do-dia/')
       setData(response2.data);
 
-      // console.log(response2.data)
+      setExercicio(response2.data['exercicio_id']);
+      setAgrupMusc(response2.data['exercicio_id']['idagrupamentomusc']);
+      setAparelho(response2.data['exercicio_id']['idaparelho']);
+
+      // console.log(response2.data['exercicio_id']['idagrupamentomusc']['nome'])
     }
 
     loadExercicioDoDia();
   }, []);
-
-
-  function headerTableTreino() {
-
-  }
 
   return (
     <Container style={styles.DataTable}>
@@ -60,27 +62,27 @@ export default function ExercicioDoDia() {
           </DataTable.Header>
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Agrupamento Muscular: </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{data['exercicio_id']['idagrupamentomusc']['nome'] != (undefined || null) ? data['exercicio_id']['idagrupamentomusc']['nome'] : ''}  </Text></DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>{agrumapamento_musc['nome'] != (undefined || null) ? agrumapamento_musc['nome'] : ''}  </Text></DataTable.Cell>
           </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Exercício:  </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{data['exercicio_id']['nome'] != (undefined || null) ? data['exercicio_id']['nome'] : ''}  </Text></DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>{exercicio['nome'] != (undefined || null) ? exercicio['nome'] : ''}  </Text></DataTable.Cell>
           </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Aparelho: </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{data['exercicio_id']['idaparelho']['nome'] != (undefined || null) ? data['exercicio_id']['idaparelho']['nome'] : ''}  </Text></DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>{aparelho['nome'] != (undefined || null) ? aparelho['nome'] : ''}  </Text></DataTable.Cell>
           </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Descrição: </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{data['exercicio_id']['descricao'] != (undefined || null) ? data['exercicio_id']['descricao'] : ''}  </Text></DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>{exercicio['descricao'] != (undefined || null) ? exercicio['descricao'] : ''}  </Text></DataTable.Cell>
           </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Tempo de Descanso: </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{data['exercicio_id']['tempoexercicio'] != (undefined || null) ? data['exercicio_id']['tempoexercicio'] : ''}  </Text></DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>{exercicio['tempoexercicio'] != (undefined || null) ? exercicio['tempoexercicio'] : ''}  </Text></DataTable.Cell>
           </DataTable.Row>
 
           <DataTable.Row>

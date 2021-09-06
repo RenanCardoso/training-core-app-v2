@@ -96,11 +96,11 @@ export default function Home() {
         }}
       >
         <Drawer.Screen
-          name="Exercício Do Dia"
+          name="Treino Do Dia"
           component={ExercicioDoDiaScreen}
           options={{
             drawerLabel: ({ focused, color }) => (
-              <Text color={focused ? "#ffffff" : "#ffffff"}>Exercício Do Dia</Text>
+              <Text color={focused ? "#ffffff" : "#ffffff"}>Treino Do Dia</Text>
             ),
             drawerIcon: ({ focused, size }) => (
               <MaterialCommunityIcons
@@ -113,11 +113,11 @@ export default function Home() {
           }}
         />
         <Drawer.Screen
-          name="Todos Exercícios"
+          name="Todos Treinos"
           component={TodosExerciciosScreen}
           options={{
             drawerLabel: ({ focused, color }) => (
-              <Text color={focused ? "#ffffff" : "#ffffff"}>Todos Exercícios</Text>
+              <Text color={focused ? "#ffffff" : "#ffffff"}>Todos Treinos</Text>
             ),
             drawerIcon: ({ focused, size }) => (
               <MaterialCommunityIcons
@@ -139,23 +139,6 @@ export default function Home() {
             drawerIcon: ({ focused, size }) => (
               <MaterialCommunityIcons
                 name="card-account-details"
-                size={size}
-                color={focused ? "#ffffff" : theme.COLORS.MUTED}
-                style={{ marginLeft: 4, marginRight: 4 }}
-              />
-            ),
-          }}
-        />
-        <Drawer.Screen
-          name="Meus Dados"
-          component={MeusDadosScreen}
-          options={{
-            drawerLabel: ({ focused, color }) => (
-              <Text color={focused ? "#ffffff" : "#ffffff"}>Meus Dados</Text>
-            ),
-            drawerIcon: ({ focused, size }) => (
-              <MaterialCommunityIcons
-                name="account"
                 size={size}
                 color={focused ? "#ffffff" : theme.COLORS.MUTED}
                 style={{ marginLeft: 4, marginRight: 4 }}

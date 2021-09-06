@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { TouchableOpacity, StyleSheet, Dimensions, ScrollView, Alert, View } from 'react-native'
-import PropTypes from 'prop-types'
+import PropTypes, { number } from 'prop-types'
 
 import api from '../../services/api'
 import { deleteUser } from '../../utils'
@@ -14,31 +14,17 @@ const { width } = Dimensions.get('screen');
 import products from '../../constants/products';
 
 export default function TodosExercicios() {
-  const [qtdcodexercicios, setQtdCodExercicios] = useState([]);
-  const [data, setData] = useState([]);
-  const [refreshing, setRefreshing] = useState(false);
+  const [qtdexercicios, setQtdExercicios]       = useState([]);
+  const [qtdcodexercicios, setQtdCodExercicios] = useState(0);
+  const [data, setData]                         = useState([]);
+  const [treino, setTreino]                     = useState([]);
+  const [treinos, setTreinos]                   = useState([]);
+  const [exercicios, setExercicios]             = useState([]);
+  const [agrupamentos_musc, setAgrupMusc]       = useState([]);
+  const [aparelhos, setAparelho]                = useState([]);
+  const [refreshing, setRefreshing]             = useState(false);
 
   const codexercicio = ['A', 'B', 'C', 'D', 'E', 'F'];
-  const exercicioObj = [
-    {
-      "exerc_por_codigo": '',
-      "exerc_por_codigo_obj": '',
-      "codigo_treino": '',
-
-      "nome_exercicio": '',
-      "descricao_exercicio": '',
-      "tempo_exercicio": '',
-
-      "ordem": '',
-      "series": '',
-      "repeticoes": '',
-      "tempo_descanso_seg": '',
-
-      "agrumapamento_musc": '',
-      "aparelho": '',
-
-    }
-  ];
 
   useEffect(() => {
 
@@ -46,13 +32,48 @@ export default function TodosExercicios() {
 
       const response = await api.get('/ficha-de-treino')
 
-      let fichadetreino = response.data['data'][0]['id'];
+      const fichadetreino = response.data['data'][0]['id'];
 
-      const response2 = await api.get('/ficha-de-treino/' + fichadetreino + '/cont-exercicio-por-codigo/')
+      const response2 = await api.get('/ficha-de-treino/' + fichadetreino + '/cont-total-exercicio-por-codigo/')
       setQtdCodExercicios(response2.data);
 
-      const response3 = await api.get('/ficha-de-treino/' + fichadetreino + '/exercicio-por-codigo/')
-      setData(response3.data);
+      const response3 = await api.get('/ficha-de-treino/' + fichadetreino + '/cont-exercicio-por-codigo/')
+      setQtdExercicios(response3.data);
+
+
+      setInterval(async () => {
+        const response4 = await api.get('/ficha-de-treino/' + fichadetreino + '/exercicio-por-codigo/')
+        setData(response4.data);
+
+      }, 3000);
+
+
+      console.log(data)
+      
+
+      // setExercicio(response4.data['exercicio_id']);
+      // setAgrupMusc(response4.data['exercicio_id']['idagrupamentomusc']);
+      // setAparelho(response4.data['exercicio_id']['idaparelho']);
+
+      // lógica para loopar os exercícios por código (loopado o header da tabela)
+      for (let i = 0; i < qtdcodexercicios; i++) {
+
+        //aqui eu faço o loop da quantidade de exercícios por código. Ex: código(A) possui 3 exercícios (loopado o body da tabela)
+        for (let k = 0; k < qtdexercicios[codexercicio[i]]; k++) {
+
+          // treino[k]                     = data[codexercicio[i]]
+          // treinos[k]                    = data[codexercicio[i]][0]
+          // exercicios[k]                 = data[codexercicio[i]][0]['exercicio_id']
+          // agrupamentos_musc[k]          = data[codexercicio[i]][0]['exercicio_id']['idagrupamentomusc']
+          // aparelhos[k]                  = data[codexercicio[i]][0]['exercicio_id']['idaparelho']
+          
+          // setTreino(treino[k]);
+          // setTreinos(treinos[k]);
+          // setExercicios(exercicios[k]);
+          // setAgrupMusc(agrupamentos_musc[k]);
+          // setAparelho(aparelhos[k]);
+        }
+      }
     }
 
     loadTodosExercicios();
@@ -60,90 +81,89 @@ export default function TodosExercicios() {
 
   // lógica para loopar os exercícios por código (loopado o header da tabela)
   let treinoporcodigo = []
+  let treinosporcodigo = []
+  let exerciciosporcodigo = []
+  let agrupamentos_muscporcodigo = []
+  let aparelhosporcodigo = []
+
+  let contexercicios = 0;
+
+  let totalexercicios = 0;
+  for (let i = 0; i < qtdcodexercicios; i++) {
+    totalexercicios += qtdexercicios[codexercicio[i]] 
+  }
+
   for (let i = 0; i < qtdcodexercicios; i++) {
 
-    exercicioObj['exerc_por_codigo']      = data[codexercicio[i]]
-    exercicioObj['exerc_por_codigo_obj']  = data[codexercicio[i]][0]
-    exercicioObj['codigo_treino']         = data[codexercicio[i]][0]['codigo_treino'],
-
-    // console.log(exercicioObj['codigo_treino'])
-
     treinoporcodigo.push(
-      <DataTable>
         <DataTable.Header style={styles.DataTableHeader}>
           <DataTable.Title><Text style={styles.text} p>Treino: </Text></DataTable.Title>
-          <DataTable.Title><Text style={styles.text} p>{exercicioObj['codigo_treino'] != (undefined || null) ? exercicioObj['codigo_treino'] : ''}</Text></DataTable.Title>
+          <DataTable.Title><Text style={styles.text} p>{codexercicio[i] != (undefined || null) ? codexercicio[i] : ''}</Text></DataTable.Title>
           <View style={styles.fixToText}>
-            <Button 
-              color="success" 
-              round size="small" 
+            <Button
+              color="success"
+              round size="small"
               {...styles.fixToText}
-              onPress={() => Alert.alert('Simple Button pressed')}  
+              onPress={() => Alert.alert('Simple Button pressed')}
             >Iniciar Treino</Button>
           </View>
         </DataTable.Header>
-      </DataTable>
     )
 
+  // const numbers = [1, 2, 3, 4, 5];
+  // const doubled = numbers.map((number) => number);
+  // console.log(doubled);
+
     //aqui eu faço o loop da quantidade de exercícios por código. Ex: código(A) possui 3 exercícios (loopado o body da tabela)
-    for (let k = 0; k < exercicioObj['exerc_por_codigo'].length; k++) {
+    for (let k = 0; k < qtdexercicios[codexercicio[i]]; k++) {
 
-      exercicioObj['nome_exercicio']      = data[codexercicio[i]][0]['exercicio_id']['nome'],
-      exercicioObj['descricao_exercicio'] = data[codexercicio[i]][0]['exercicio_id']['descricao'],
-      exercicioObj['tempo_exercicio']     = data[codexercicio[i]][0]['exercicio_id']['tempoexercicio'],
-
-      exercicioObj['ordem']               = data[codexercicio[i]][0]['ordem'],
-      exercicioObj['series']              = data[codexercicio[i]][0]['series'],
-      exercicioObj['repeticoes']          = data[codexercicio[i]][0]['repeticoes'],
-      exercicioObj['tempo_descanso_seg']  = data[codexercicio[i]][0]['tempo_descanso_seg'],
-
-      exercicioObj['agrumapamento_musc']  = data[codexercicio[i]][0]['exercicio_id']['idagrupamentomusc']['nome'],
-      exercicioObj['aparelho']            = data[codexercicio[i]][0]['exercicio_id']['idaparelho']['nome'],
-
-
+      // console.log(data[contexercicios]['codigo_treino'])
+      // treinosporcodigo[contexercicios]        = data[contexercicios]
+      // exerciciosporcodigo[contexercicios]         = data[contexercicios]['exercicio_id']
+      // agrupamentos_muscporcodigo[i][k]  = data[codexercicio[i]][0]['exercicio_id']['idagrupamentomusc']
+      // aparelhosporcodigo[i][k]          = data[codexercicio[i]][0]['exercicio_id']['idaparelho']
 
       treinoporcodigo.push(
 
         <DataTable style={styles.DataTable}>
-
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Agrupamento Muscular: </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{exercicioObj['agrumapamento_musc'] != (undefined || null) ? exercicioObj['agrumapamento_musc'] : ''}  </Text></DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>{data[contexercicios]['exercicio_id']['idagrupamentomusc']['nome'] != (undefined || null) ? data[contexercicios]['exercicio_id']['idagrupamentomusc']['nome'] : ''}  </Text></DataTable.Cell>
           </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Exercício:  </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{exercicioObj['nome_exercicio'] != (undefined || null) ? exercicioObj['nome_exercicio'] : ''}  </Text></DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>{data[contexercicios]['exercicio_id']['nome'] != (undefined || null) ? data[contexercicios]['exercicio_id']['nome'] : ''}  </Text></DataTable.Cell>
           </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Aparelho: </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{exercicioObj['aparelho'] != (undefined || null) ? exercicioObj['aparelho'] : ''}  </Text></DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>{data[contexercicios]['exercicio_id']['idagrupamentomusc']['nome'] != (undefined || null) ? data[contexercicios]['exercicio_id']['idagrupamentomusc']['nome'] : ''}  </Text></DataTable.Cell>
           </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Descrição: </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{exercicioObj['descricao_exercicio'] != (undefined || null) ? exercicioObj['descricao_exercicio'] : ''}  </Text></DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>{data[contexercicios]['exercicio_id']['descricao'] != (undefined || null) ? data[contexercicios]['exercicio_id']['descricao'] : ''}  </Text></DataTable.Cell>
           </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Tempo de Descanso: </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{exercicioObj['tempo_exercicio'] != (undefined || null) ? exercicioObj['tempo_exercicio'] : ''}  </Text></DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>{data[contexercicios]['tempodescansoseg'] != (undefined || null) ? data[contexercicios]['tempodescansoseg'] : ''}  </Text></DataTable.Cell>
           </DataTable.Row>
 
-          {/* <DataTable.Row>
+          <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Ordem: </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{exercicioObj['ordem'] != (undefined || null) ? exercicioObj['ordem'] : ''}  </Text></DataTable.Cell>
-          </DataTable.Row> */}
+            <DataTable.Cell><Text style={styles.text}>{data[contexercicios]['ordem'] != (undefined || null) ? data[contexercicios]['ordem'] : ''}  </Text></DataTable.Cell>
+          </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Séries: </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{exercicioObj['series'] != (undefined || null) ? exercicioObj['series'] : ''}  </Text></DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>{data[contexercicios]['series'] != (undefined || null) ? data[contexercicios]['series'] : ''}  </Text></DataTable.Cell>
           </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Repetições: </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{exercicioObj['repeticoes'] != (undefined || null) ? exercicioObj['repeticoes'] : ''}  </Text></DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>{data[contexercicios]['repeticoes'] != (undefined || null) ? data[contexercicios]['repeticoes'] : ''}  </Text></DataTable.Cell>
           </DataTable.Row>
 
           {/* <DataTable.Pagination
@@ -160,15 +180,16 @@ export default function TodosExercicios() {
 
         </DataTable >
       )
+      contexercicios++;
     }
   }
 
+
   return (
-    <Container style={styles.DataTable}>
+    <Container style={styles.container}>
       <ScrollView>
         {treinoporcodigo}
-        {/* <Text>Sair</Text> */}
-
+        {/* <Text>AA</Text> */}
       </ScrollView>
     </Container>
   );
@@ -257,17 +278,22 @@ const styles = StyleSheet.create({
   },
   DataTable: {
     marginBottom: 2,
-    backgroundColor: '#45546c',
+    borderWidth: 2,
+    borderColor: '#3c4b64',
+    borderBottomColor: '#ffffff',
   },
   text: {
     color: "#ffffff"
   },
   textTitulo: {
-    marginLeft: 5 
+    marginLeft: 5
   },
   fixToText: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: -5
   },
+  container: {
+    backgroundColor: '#45546c',
+  }
 });
