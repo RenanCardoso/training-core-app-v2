@@ -24,46 +24,36 @@ import AuthLoadingScreen from '../AuthLoadingScreen'
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem, } from '@react-navigation/drawer';
 import { color } from 'react-native-reanimated'
 
-
-
 export default function Home() {
   const [data, setData] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
-    async function loadProducts() {
+    async function loadTodosTreinos() {
 
-      // const response = await api.get('/avaliacao-medica')
+      // setInterval(async () => {
+      //   const response4 = await api.get('/ficha-de-treino/' + fichadetreino + '/exercicio-por-codigo/')
+      //   console.log(response4.data)
+      // }, 3000);
 
-//      console.log(response.data)
-
-      // setData(response.data.products);
+      // const response4 = await api.get('/ficha-de-treino/' + fichadetreino + '/exercicio-por-codigo/')
+      // setData(response4.data);
+      // console.log(response4.data)
     }
 
-    loadProducts();
+    loadTodosTreinos();
   }, []);
-
-  async function loadFichaDeTreino() {
-
-//    const response = await api.get('/ficha-de-treino')
-
-    // console.log(response.data)
-
-    // setData(response.data.products);
-  }
-
-  loadFichaDeTreino();
 
   function CustomDrawerContent(props) {
     return (
       <DrawerContentScrollView {...props}>
         <DrawerItemList {...props} />
         <DrawerItem
-//          onPress={(props) => {
-            // Navigate using the `navigation` prop that you received
-            // props.navigation.navigate('AuthLoadingScreen');
-//             props.navigation.navigate('Auth')
-//          }}
+          onPress={() => (
+            deleteUser().then(() => {
+              navigation.navigate('AuthLoading')
+            })
+          )}
           label={
             ({ focused, color }) =>
               <Text style={{ color: "#ffffff" }}>{focused ? 'Sair' : 'Sair'}</Text>
