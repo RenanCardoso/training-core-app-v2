@@ -4,21 +4,23 @@ import { createStackNavigator } from 'react-navigation-stack'
 import Welcome from './pages/Welcome'
 import Home from './pages/Home'
 import FichaDeTreino from './pages/FichaDeTreino'
-import AuthLoadingScreen from './pages/AuthLoadingScreen'
+import AuthLoading from './pages/AuthLoadingScreen'
 
 const StackNavigator = createStackNavigator(
   {
     Home,
     FichaDeTreino,
-    AuthLoading: AuthLoadingScreen,
+    AuthLoading,
   },
   {
     initialRouteName: 'Home',
+    headerTransparent: true,
     headerMode: 'none',
     defaultNavigationOptions: {
+      headerTitle: '',
       headerTintColor: '#000000',
       headerTitleStyle: {
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
       },
     },
   },
@@ -41,7 +43,7 @@ const AuthStack = createStackNavigator(
 
 const RootStack = createSwitchNavigator(
   {
-    AuthLoading: AuthLoadingScreen,
+    AuthLoading,
     Auth: AuthStack,
     App: StackNavigatorContainer,
   },

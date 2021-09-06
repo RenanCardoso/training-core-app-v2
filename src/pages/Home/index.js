@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { TouchableOpacity, StyleSheet, Dimensions, ScrollView } from 'react-native'
+import { TouchableOpacity, StyleSheet, Dimensions, ScrollView, Alert } from 'react-native'
 import PropTypes from 'prop-types'
 import api from '../../services/api'
 import { deleteUser } from '../../utils'
@@ -10,7 +10,8 @@ import products from '../../constants/products';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Icon, Header, DrawerCustomItem } from '../../components';
 import { Images, materialTheme } from "../../constants";
-
+import { StackActions, NavigationActions } from 'react-navigation'
+import { StatusBar, ActivityIndicator, AsyncStorage } from 'react-native'
 import CustomDrawerContent from '../../navigation/Menu';
 
 import FichadeTreinoScreen from '../FichaDeTreino'
@@ -18,42 +19,38 @@ import MeusDadosScreen from '../MeusDados/'
 import AvaliacaoMedicaScreen from '../AvaliacaoMedica/'
 import TodosExerciciosScreen from '../TodosExercicios/'
 import ExercicioDoDiaScreen from '../ExercicioDoDia/'
-import AuthLoadingScreen from '../AuthLoadingScreen'
+import Welcome from '../Welcome'
+import AuthLoading from '../AuthLoadingScreen'
 
 
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem, } from '@react-navigation/drawer';
 import { color } from 'react-native-reanimated'
 
-export default function Home() {
+export default function Home(props) {
   const [data, setData] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [loading, setLoading] = useState(false)
+   
+  async function signOut() {
 
-  useEffect(() => {
-    async function loadTodosTreinos() {
+    deleteUser().then()
 
-      // setInterval(async () => {
-      //   const response4 = await api.get('/ficha-de-treino/' + fichadetreino + '/exercicio-por-codigo/')
-      //   console.log(response4.data)
-      // }, 3000);
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: 'SignIn' })],
+    })
 
-      // const response4 = await api.get('/ficha-de-treino/' + fichadetreino + '/exercicio-por-codigo/')
-      // setData(response4.data);
-      // console.log(response4.data)
+    props.navigation.dispatch(resetAction)
     }
-
-    loadTodosTreinos();
-  }, []);
+    
 
   function CustomDrawerContent(props) {
+
     return (
       <DrawerContentScrollView {...props}>
         <DrawerItemList {...props} />
         <DrawerItem
-          onPress={() => (
-            deleteUser().then(() => {
-              navigation.navigate('AuthLoading')
-            })
-          )}
+          onPress={signOut}
           label={
             ({ focused, color }) =>
               <Text style={{ color: "#ffffff" }}>{focused ? 'Sair' : 'Sair'}</Text>
@@ -66,7 +63,9 @@ export default function Home() {
               name={focused ? 'logout' : 'logout'}
               focused={true}
             />}
-        />
+        >
+        </DrawerItem>
+        
       </DrawerContentScrollView>
     );
   }
@@ -103,11 +102,11 @@ export default function Home() {
           }}
         />
         <Drawer.Screen
-          name="Todos Treinos"
+          name="Todos Os Treinos"
           component={TodosExerciciosScreen}
           options={{
             drawerLabel: ({ focused, color }) => (
-              <Text color={focused ? "#ffffff" : "#ffffff"}>Todos Treinos</Text>
+              <Text color={focused ? "#ffffff" : "#ffffff"}>Todos Os Treinos</Text>
             ),
             drawerIcon: ({ focused, size }) => (
               <MaterialCommunityIcons

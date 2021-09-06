@@ -30,7 +30,6 @@ export default function ExercicioDoDia() {
 
       const response2 = await api.get('/ficha-de-treino/' + fichadetreino + '/treino-do-dia/')
       setData(response2.data);
-
       setExercicio(response2.data['exercicio_id']);
       setAgrupMusc(response2.data['exercicio_id']['idagrupamentomusc']);
       setAparelho(response2.data['exercicio_id']['idaparelho']);
@@ -62,7 +61,7 @@ export default function ExercicioDoDia() {
           </DataTable.Header>
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Agrupamento Muscular: </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{agrumapamento_musc['nome'] != (undefined || null) ? agrumapamento_musc['nome'] : ''}  </Text></DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>{exercicio['idagrupamentomusc'] != (undefined || null) ? exercicio['idagrupamentomusc'] : ''}  </Text></DataTable.Cell>
           </DataTable.Row>
 
           <DataTable.Row>
@@ -72,7 +71,7 @@ export default function ExercicioDoDia() {
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Aparelho: </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{aparelho['nome'] != (undefined || null) ? aparelho['nome'] : ''}  </Text></DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>{exercicio['idaparelho'] != (undefined || null) ? exercicio['idaparelho'] : ''}  </Text></DataTable.Cell>
           </DataTable.Row>
 
           <DataTable.Row>
