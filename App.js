@@ -16,10 +16,6 @@ export default class App extends Component {
               setTopLevelNavigator(navigatorRef)
             }}
           />
-          {/* <Drawer.Navigator initialRouteName="AuthLoadingScreen">
-            <Drawer.Screen name="Home" component={HomeScreen} />
-            <Drawer.Screen name="Notifications" component={NotificationsScreen} />
-          </Drawer.Navigator> */}
         </GalioProvider>
       </NavigationContainer>
     );

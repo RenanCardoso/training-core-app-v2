@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { TouchableOpacity, StyleSheet, Dimensions, ScrollView } from 'react-native'
+import { TouchableOpacity, StyleSheet, Dimensions, ScrollView, Alert } from 'react-native'
 import PropTypes from 'prop-types'
 
 import api from '../../services/api'
@@ -12,12 +12,16 @@ import { Icon, Product, Tabs } from '../../components/';
 const { width } = Dimensions.get('screen');
 import products from '../../constants/products';
 import { DataTable } from 'react-native-paper';
+import { StackActions, NavigationActions } from 'react-navigation'
+import RealizarExercicios from '../RealizarExercicios'
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-export default function ExercicioDoDia() {
+export default function ExercicioDoDia({ navigation }) {
   const [data, setData] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [exercicio, setExercicio] = useState([]);
-  const [agrumapamento_musc, setAgrupMusc] = useState([]);
+  const [agrupamento_musc, setAgrupMusc] = useState([]);
   const [aparelho, setAparelho] = useState([]);
 
   useEffect(() => {
@@ -40,17 +44,27 @@ export default function ExercicioDoDia() {
     loadExercicioDoDia();
   }, []);
 
+  async function iniciarTreino(){
+
+    const resetAction = StackActions.push({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: 'RealizarExercicios' })],
+    })
+
+    props.navigation.dispatch(resetAction)
+  }
+
   return (
     <Container style={styles.DataTable}>
+      
       <ScrollView>
-
         <DataTable>
           <DataTable style={styles.fixToText}>
             <Button
               color="success"
               round size="small"
-              // {...styles.fixToText}
-              onPress={() => Alert.alert('Simple Button pressed')}
+              // onPress={DetailsScreen}
+              onPress={() => navigation.navigate('RealizarExercicios')}
             >Iniciar Treino</Button>
           </DataTable>
 

@@ -5,12 +5,14 @@ import Welcome from './pages/Welcome'
 import Home from './pages/Home'
 import FichaDeTreino from './pages/FichaDeTreino'
 import AuthLoading from './pages/AuthLoadingScreen'
+import RealizarExercicios from './pages/RealizarExercicios'
 
 const StackNavigator = createStackNavigator(
   {
     Home,
     FichaDeTreino,
     AuthLoading,
+    RealizarExercicios,
   },
   {
     initialRouteName: 'Home',
@@ -32,6 +34,7 @@ const AuthStack = createStackNavigator(
   {
     SignIn: Welcome,
     App: StackNavigatorContainer,
+    RealizarExercicios: RealizarExercicios,
     // SignUp: RegisterUser
   },
   {
