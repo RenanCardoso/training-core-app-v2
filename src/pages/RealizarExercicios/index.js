@@ -23,6 +23,10 @@ export default function RealizarExercicios() {
 
       const response = await api.get('/ficha-de-treino')
 
+      let fichadetreino = response.data['data'][0]['id'];
+
+      const response2 = await api.get('/consultar-treino-a-realizar/{fichadetreino}/')
+
     }
 
     loadRealizarExercicios();
