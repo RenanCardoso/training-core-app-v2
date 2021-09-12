@@ -13,14 +13,16 @@ import { Images, materialTheme } from "../../constants";
 import { StackActions, NavigationActions } from 'react-navigation'
 import { StatusBar, ActivityIndicator, AsyncStorage } from 'react-native'
 import CustomDrawerContent from '../../navigation/Menu';
-
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
 import FichadeTreinoScreen from '../FichaDeTreino'
 import MeusDadosScreen from '../MeusDados/'
 import AvaliacaoMedicaScreen from '../AvaliacaoMedica/'
 import TodosExerciciosScreen from '../TodosExercicios/'
 import ExercicioDoDiaScreen from '../ExercicioDoDia/'
-import Welcome from '../Welcome'
 import AuthLoading from '../AuthLoadingScreen'
+import RealizarExercicios from '../RealizarExercicios'
+
 
 
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem, } from '@react-navigation/drawer';
@@ -41,8 +43,7 @@ export default function Home(props) {
     })
 
     props.navigation.dispatch(resetAction)
-    }
-    
+  }
 
   function CustomDrawerContent(props) {
 
@@ -157,9 +158,11 @@ export default function Home(props) {
   }
 
   return (
-    <Container>
-      <MyDrawer />
-    </Container>
+    <NavigationContainer independent={true}>
+      <Container>
+        <MyDrawer />
+      </Container>
+    </NavigationContainer>
 
   );
 }

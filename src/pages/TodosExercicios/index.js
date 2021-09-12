@@ -52,7 +52,7 @@ export default function TodosExercicios() {
 
     treinoporcodigo.push(
         <DataTable.Header style={styles.DataTableHeader}>
-          <DataTable.Title><Text style={styles.text} p>Treino: </Text></DataTable.Title>
+          <DataTable.Title><Text style={styles.text} p>Cód Agrupamento: </Text></DataTable.Title>
           <DataTable.Title><Text style={styles.text} p>{codexercicio[i] != (undefined || null) ? codexercicio[i] : ''}</Text></DataTable.Title>
           <View style={styles.fixToText}>
             <Button

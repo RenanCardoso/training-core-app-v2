@@ -13,7 +13,7 @@ import { DataTable } from 'react-native-paper';
 const { width } = Dimensions.get('screen');
 import products from '../../constants/products';
 
-export default function RealizarExercicios() {
+export default function RealizarExercicios({ navigation }) {
   const [data, setData] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -35,6 +35,13 @@ export default function RealizarExercicios() {
   return (
     <Container style={styles.DataTable}>
         <Text>Essa tela</Text>
+
+        <Button
+        title="Go to TreinoDoDia"
+        onPress={() => navigation.navigate('TreinoDoDia')}
+      >
+          Go to TreinoDoDia
+        </Button>
 
       {/* <DataTable style={styles.DataTable}>
         <DataTable.Header style={styles.DataTableHeader}>
