@@ -59,17 +59,17 @@ export default function ExercicioDoDia({ navigation }) {
 
   async function iniciarTreino() {
 
-    console.log(treinosarealizar['id'])
+    console.log(treinosarealizar.id)
 
-    const response4 = await api.put('/iniciar-treino/' + treinosarealizar['id'])
+    const response4 = await api.put('/iniciar-treino/' + treinosarealizar.id)
     // console.log(response4.status)
   }
 
   async function finalizarTreino() {
 
-    console.log(treinosarealizar['id'])
+    console.log(treinosarealizar.id)
 
-    const response5 = await api.put('/finalizar-treino/' + treinosarealizar['id'])
+    const response5 = await api.put('/finalizar-treino/' + treinosarealizar.id)
     // console.log(response4.status)
   }
 
@@ -159,11 +159,11 @@ export default function ExercicioDoDia({ navigation }) {
               finalizarTreino().then(() => {
                 Alert.alert(
                   'Treino Finalizado Com Sucesso!',
-                  'Parabéns, você terminou o treino de hoje com sucesso!',
+                  'Parabéns, você terminou o treino de hoje com sucesso! Volte amanhã e continue evoluindo.',
                   [ { text: 'OK' } ],
                   { cancelable: false },
-                )
-                navigation.navigate('TodosExerciciosScreen')
+                ),
+                navigation.navigate('TreinoDoDia')
               })
             )}
           >
@@ -202,7 +202,6 @@ export default function ExercicioDoDia({ navigation }) {
   const Tab = createBottomTabNavigator();
   const TreinoDoDiaStack = createNativeStackNavigator();
   const HomeStack = createNativeStackNavigator();
-
 
   return (
     <NavigationContainer independent={true}>
