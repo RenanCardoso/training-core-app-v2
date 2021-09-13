@@ -22,14 +22,13 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import ProductItem from '../../components/ProductItem'
 
 
 export default function ExercicioDoDia(props) {
+  const [codexercicio, setCodExercicio] = useState([]);
   const [data, setData] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
-  const [exercicio, setExercicio] = useState([]);
-  const [agrupamento_musc, setAgrupMusc] = useState([]);
-  const [aparelho, setAparelho] = useState([]);
 
   useEffect(() => {
 
@@ -37,107 +36,59 @@ export default function ExercicioDoDia(props) {
 
       const response = await api.get('/ficha-de-treino')
 
-      let fichadetreino = response.data['data'][0]['id'];
+      const fichadetreino = response.data['data'][0]['id'];
 
       const response2 = await api.get('/ficha-de-treino/' + fichadetreino + '/treino-do-dia/')
       setData(response2.data);
-      setExercicio(response2.data['exercicio_id']);
-      setAgrupMusc(response2.data['exercicio_id']['idagrupamentomusc']);
-      setAparelho(response2.data['exercicio_id']['idaparelho']);
-
-      // console.log(response2.data['exercicio_id']['idagrupamentomusc']['nome'])
+      setCodExercicio(response2.data[0].codigo_treino);
     }
 
     loadExercicioDoDia();
   }, []);
 
 
+  var renderListItem = ({ item }) => <ProductItem product={item} />
+
   function TreinoDoDiaScreen({ navigation }) {
     return (
-  
-        <Container style={styles.DataTable}>
-          
-          <ScrollView>
-            <DataTable>
-              <DataTable style={styles.fixToText}>
-                <Button
-                  color="success"
-                  round size="small"
-                  title="Iniciar Treino"
-                  onPress={() => navigation.navigate('RealizarExercicios')}
-                  >Iniciar Treino
-                </Button>
-              </DataTable>
-  
-              <DataTable.Header style={styles.DataTableHeader}>
-                <DataTable.Title><Text style={styles.text} p>Cód Agrupamento: </Text></DataTable.Title>
-                <DataTable.Title><Text style={styles.text} p>{data['codigo_treino'] != (undefined || null) ? data['codigo_treino'] : ''}</Text></DataTable.Title>
-  
-              </DataTable.Header>
-              <DataTable.Row>
-                <DataTable.Cell><Text style={styles.text}>Agrupamento Muscular: </Text></DataTable.Cell>
-                <DataTable.Cell><Text style={styles.text}>{exercicio['idagrupamentomusc'] != (undefined || null) ? exercicio['idagrupamentomusc'] : ''}  </Text></DataTable.Cell>
-              </DataTable.Row>
-  
-              <DataTable.Row>
-                <DataTable.Cell><Text style={styles.text}>Exercício:  </Text></DataTable.Cell>
-                <DataTable.Cell><Text style={styles.text}>{exercicio['nome'] != (undefined || null) ? exercicio['nome'] : ''}  </Text></DataTable.Cell>
-              </DataTable.Row>
-  
-              <DataTable.Row>
-                <DataTable.Cell><Text style={styles.text}>Aparelho: </Text></DataTable.Cell>
-                <DataTable.Cell><Text style={styles.text}>{exercicio['idaparelho'] != (undefined || null) ? exercicio['idaparelho'] : ''}  </Text></DataTable.Cell>
-              </DataTable.Row>
-  
-              <DataTable.Row>
-                <DataTable.Cell><Text style={styles.text}>Descrição: </Text></DataTable.Cell>
-                <DataTable.Cell><Text style={styles.text}>{exercicio['descricao'] != (undefined || null) ? exercicio['descricao'] : ''}  </Text></DataTable.Cell>
-              </DataTable.Row>
-  
-              <DataTable.Row>
-                <DataTable.Cell><Text style={styles.text}>Tempo de Descanso: </Text></DataTable.Cell>
-                <DataTable.Cell><Text style={styles.text}>{exercicio['tempoexercicio'] != (undefined || null) ? exercicio['tempoexercicio'] : ''}  </Text></DataTable.Cell>
-              </DataTable.Row>
-  
-              <DataTable.Row>
-                <DataTable.Cell><Text style={styles.text}>Ordem: </Text></DataTable.Cell>
-                <DataTable.Cell><Text style={styles.text}>{data['ordem'] != (undefined || null) ? data['ordem'] : ''}  </Text></DataTable.Cell>
-              </DataTable.Row>
-  
-              <DataTable.Row>
-                <DataTable.Cell><Text style={styles.text}>Séries: </Text></DataTable.Cell>
-                <DataTable.Cell><Text style={styles.text}>{data['series'] != (undefined || null) ? data['series'] : ''}  </Text></DataTable.Cell>
-              </DataTable.Row>
-  
-              <DataTable.Row>
-                <DataTable.Cell><Text style={styles.text}>Repetições: </Text></DataTable.Cell>
-                <DataTable.Cell><Text style={styles.text}>{data['repeticoes'] != (undefined || null) ? data['repeticoes'] : ''}  </Text></DataTable.Cell>
-              </DataTable.Row>
-  
-              {/* <DataTable.Pagination
-              page={page}
-              numberOfPages={3}
-              onPageChange={(page) => setPage(page)}
-              label="1-2 of 6"
-              optionsPerPage={optionsPerPage}
-              itemsPerPage={itemsPerPage}
-              setItemsPerPage={setItemsPerPage}
-              showFastPagination
-              optionsLabel={'Rows per page'}
-              /> */}
-  
-            </DataTable >
-          </ScrollView>
-        </Container>
+      <Container style={styles.DataTable}>
+        <DataTable>
+          <DataTable style={styles.fixToText}>
+            <Button
+              color="success"
+              round size="small"
+              // onPress={DetailsScreen}
+              onPress={() => navigation.navigate('RealizarExercicios')}
+            >Iniciar Treino</Button>
+          </ DataTable>
+
+          <DataTable.Header style={styles.DataTableHeader}>
+            <DataTable.Title style={styles.textTitulo}><Text style={styles.text} p>Cód Agrupamento: </Text></DataTable.Title>
+            <DataTable.Title style={styles.textTitulo}><Text style={styles.text} p>{codexercicio != (undefined || null) ? codexercicio : ''}</Text></DataTable.Title>
+
+          </DataTable.Header>
+        </ DataTable>
+        <ScrollView>
+          <ProductList
+            data={data}
+            keyExtractor={item => String(item.id)}
+            renderItem={renderListItem}
+          // onRefresh={loadProducts}
+          // refreshing={refreshing}
+          />
+
+        </ScrollView>
+      </Container>
+
+
     );
   }
-  
+
   function RealizarExerciciosScreen({ navigation }) {
     useFocusEffect(
       React.useCallback(() => {
         // alert('Entrei na tela');
         // Do something when the screen is focused
-
 
         // return () => {
         //   alert('Screen was unfocused');
@@ -149,56 +100,55 @@ export default function ExercicioDoDia(props) {
 
     return (
       // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-
-        <Button
+      <Button
         title="Go to TreinoDoDia"
         onPress={() => navigation.navigate('TreinoDoDia')}
       >
-          Go to TreinoDoDia
-        </Button>
-  
+        Go to TreinoDoDia
+      </Button>
+
     );
   }
-  
+
   function HomeScreen({ navigation }) {
     return (
       // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Home Screen</Text>
-        // <Button
-          // title="Go to Details"
-          // onPress={() => navigation.navigate('Details')}
-        // />
+      <Text>Home Screen</Text>
+      // <Button
+      // title="Go to Details"
+      // onPress={() => navigation.navigate('Details')}
+      // />
       // </View>
     );
   }
-  
+
   function DetailsScreen({ navigation }) {
     return (
       // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Details Screen</Text>
-        // <Button
-          // title="Go to Details... again"
-          // onPress={() => navigation.push('Details')}
-        // />
+      <Text>Details Screen</Text>
+      // <Button
+      // title="Go to Details... again"
+      // onPress={() => navigation.push('Details')}
+      // />
       // </View>
     );
   }
   const Tab = createBottomTabNavigator();
   const TreinoDoDiaStack = createNativeStackNavigator();
   const HomeStack = createNativeStackNavigator();
-  
+
 
   return (
     <NavigationContainer independent={true}>
 
       <Container>
-        <Tab.Navigator 
+        <Tab.Navigator
           // screenOptions={{ headerShown: false }}
           screenOptions={({ route }) => ({
             headerShown: false,
             tabBarIcon: ({ focused, color, size }) => {
               let iconName;
-  
+
               if (route.name === 'Treino do Dia') {
                 iconName = focused
                   ? 'weight-lifter'
@@ -206,7 +156,7 @@ export default function ExercicioDoDia(props) {
               } else if (route.name === 'Todos Os Treinos') {
                 iconName = focused ? 'arm-flex' : 'arm-flex';
               }
-  
+
               // You can return any component that you like here!
               return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
             },
@@ -238,7 +188,7 @@ export default function ExercicioDoDia(props) {
         </Tab.Navigator>
       </Container>
     </NavigationContainer>
-    
+
   );
 }
 
@@ -326,10 +276,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#45546c',
   },
   text: {
-    color: "#ffffff"
+    color: "#ffffff",
+    fontSize: 20
   },
   textTitulo: {
-    marginLeft: 5
+    color: "#ffffff",
+    marginLeft: 5,
+    // justifyContent: 'center',
+    // alignItems: 'center',
   },
   fixToText: {
     justifyContent: 'center',

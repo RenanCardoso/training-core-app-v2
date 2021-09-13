@@ -16,7 +16,7 @@ import products from '../../constants/products';
 import ProductItem from '../../components/ProductItem'
 
 
-export default function TodosExercicios() {
+export default function TodosExercicios({ navigation }) {
   const [qtdexercicios, setQtdExercicios]       = useState([]);
   const [qtdcodexercicios, setQtdCodExercicios] = useState(0);
   const [data, setData]                         = useState([]);
@@ -53,19 +53,19 @@ export default function TodosExercicios() {
     treinoporcodigo.push(
         <DataTable.Header style={styles.DataTableHeader}>
           <DataTable.Title><Text style={styles.text} p>Cód Agrupamento: </Text></DataTable.Title>
-          <DataTable.Title><Text style={styles.text} p>{codexercicio[i] != (undefined || null) ? codexercicio[i] : ''}</Text></DataTable.Title>
+          <DataTable.Title style={styles.textTitulo}><Text style={styles.text} p>{codexercicio[i] != (undefined || null) ? codexercicio[i] : ''}</Text></DataTable.Title>
           <View style={styles.fixToText}>
             <Button
               color="success"
               round size="small"
-              {...styles.fixToText}
-              onPress={() => Alert.alert('Simple Button pressed')}
-            >Iniciar Treino</Button>
+              title="Iniciar Treino"
+              onPress={() => navigation.navigate('RealizarExercicios')}
+              >Iniciar Treino
+            </Button>
           </View>
         </DataTable.Header>
     )
   }
-
 
   var renderListItem = ({ item }) => <ProductItem product={item} />
 
@@ -174,10 +174,14 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ffffff',
   },
   text: {
-    color: "#ffffff"
+    color: "#ffffff",
+    fontSize: 20
   },
   textTitulo: {
-    marginLeft: 5
+    color: "#ffffff",
+    marginLeft: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   fixToText: {
     flexDirection: 'row',
