@@ -15,6 +15,7 @@ import { DataTable } from 'react-native-paper';
 import { StackActions, NavigationActions } from 'react-navigation'
 import RealizarExercicios from '../RealizarExercicios'
 import TodosExerciciosScreen from '../TodosExercicios'
+import ExerciciododiaScreen from '../ExercicioDoDia'
 
 import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -23,11 +24,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import ProductItem from '../../components/ProductItem'
+import RealizarProductItem from '../../components/RealizarProductItem'
 
 
-export default function ExercicioDoDia(props) {
+export default function ExercicioDoDia({ navigation }) {
   const [codexercicio, setCodExercicio] = useState([]);
   const [data, setData] = useState([]);
+  const [treinosarealizar, setTreinoARealizar] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
@@ -41,13 +44,37 @@ export default function ExercicioDoDia(props) {
       const response2 = await api.get('/ficha-de-treino/' + fichadetreino + '/treino-do-dia/')
       setData(response2.data);
       setCodExercicio(response2.data[0].codigo_treino);
-    }
 
+      const treino_realizado = 
+      {
+        "ficha_de_treino_id": fichadetreino,
+        "codigo_treino": codexercicio
+      }
+      const response3 = await api.post('/consultar-treino-a-realizar/', treino_realizado)
+      setTreinoARealizar(response3.data);
+      // console.log(response3.data)
+    }
     loadExercicioDoDia();
   }, []);
 
+  async function iniciarTreino() {
+
+    console.log(treinosarealizar['id'])
+
+    const response4 = await api.put('/iniciar-treino/' + treinosarealizar['id'])
+    // console.log(response4.status)
+  }
+
+  async function finalizarTreino() {
+
+    console.log(treinosarealizar['id'])
+
+    const response5 = await api.put('/finalizar-treino/' + treinosarealizar['id'])
+    // console.log(response4.status)
+  }
 
   var renderListItem = ({ item }) => <ProductItem product={item} />
+  var renderListTreino = ({ item }) => <RealizarProductItem product={item} />
 
   function TreinoDoDiaScreen({ navigation }) {
     return (
@@ -57,8 +84,11 @@ export default function ExercicioDoDia(props) {
             <Button
               color="success"
               round size="small"
-              // onPress={DetailsScreen}
-              onPress={() => navigation.navigate('RealizarExercicios')}
+              onPress={() => (
+                iniciarTreino().then(() => {
+                  navigation.navigate('RealizarExercicios')
+                })
+              )}
             >Iniciar Treino</Button>
           </ DataTable>
 
@@ -79,8 +109,6 @@ export default function ExercicioDoDia(props) {
 
         </ScrollView>
       </Container>
-
-
     );
   }
 
@@ -100,12 +128,50 @@ export default function ExercicioDoDia(props) {
 
     return (
       // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Button
-        title="Go to TreinoDoDia"
-        onPress={() => navigation.navigate('TreinoDoDia')}
-      >
-        Go to TreinoDoDia
-      </Button>
+
+
+
+      <Container style={styles.DataTable}>
+        <DataTable style={styles.fixToText}>
+          <DataTable.Header style={styles.DataTableHeader}>
+            <DataTable.Title style={styles.textTitulo}><Text style={styles.text} p>Cód Agrupamento: </Text></DataTable.Title>
+            <DataTable.Title style={styles.textTitulo}><Text style={styles.text} p>{codexercicio != (undefined || null) ? codexercicio : ''}</Text></DataTable.Title>
+
+          </DataTable.Header>
+        </ DataTable>
+        <ScrollView>
+          <ProductList
+            data={data}
+            keyExtractor={item => String(item.id)}
+            renderItem={renderListTreino}
+          // onRefresh={loadProducts}
+          // refreshing={refreshing}
+          />
+
+        </ScrollView>
+        <DataTable style={styles.fixToText}>
+
+          <Button
+            color="success"
+            round size="small"
+            title="Todos Treinos"
+            onPress={() => (
+              finalizarTreino().then(() => {
+                Alert.alert(
+                  'Treino Finalizado Com Sucesso!',
+                  'Parabéns, você terminou o treino de hoje com sucesso!',
+                  [ { text: 'OK' } ],
+                  { cancelable: false },
+                )
+                navigation.navigate('TodosExerciciosScreen')
+              })
+            )}
+          >
+            Finalizar Treino
+          </Button>
+        </ DataTable>
+
+      </Container>
 
     );
   }

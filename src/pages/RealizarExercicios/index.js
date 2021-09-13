@@ -26,7 +26,6 @@ export default function RealizarExercicios({ navigation }) {
       let fichadetreino = response.data['data'][0]['id'];
 
       const response2 = await api.get('/consultar-treino-a-realizar/{fichadetreino}/')
-
     }
 
     loadRealizarExercicios();

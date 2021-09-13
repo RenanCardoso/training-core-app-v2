@@ -86,11 +86,11 @@ export default function Home(props) {
         }}
       >
         <Drawer.Screen
-          name="Treino Do Dia"
+          name="Meus Treinos"
           component={ExercicioDoDiaScreen}
           options={{
             drawerLabel: ({ focused, color }) => (
-              <Text color={focused ? "#ffffff" : "#ffffff"}>Treino Do Dia</Text>
+              <Text color={focused ? "#ffffff" : "#ffffff"}>Meus Treinos</Text>
             ),
             drawerIcon: ({ focused, size }) => (
               <MaterialCommunityIcons
@@ -102,7 +102,7 @@ export default function Home(props) {
             ),
           }}
         />
-        <Drawer.Screen
+        {/* <Drawer.Screen
           name="Todos Os Treinos"
           component={TodosExerciciosScreen}
           options={{
@@ -118,7 +118,7 @@ export default function Home(props) {
               />
             ),
           }}
-        />
+        /> */}
         <Drawer.Screen
           name="Ficha De Treino"
           component={FichadeTreinoScreen}
