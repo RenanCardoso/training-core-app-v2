@@ -52,25 +52,47 @@ export default function ExercicioDoDia({ navigation }) {
       }
       const response3 = await api.post('/consultar-treino-a-realizar/', treino_realizado)
       setTreinoARealizar(response3.data);
-      // console.log(response3.data)
     }
     loadExercicioDoDia();
   }, []);
 
   async function iniciarTreino() {
 
-    console.log(treinosarealizar.id)
+    // console.log(treinosarealizar.id)
 
-    const response4 = await api.put('/iniciar-treino/' + treinosarealizar.id)
-    // console.log(response4.status)
+    const response4 = await api.put('/iniciar-treino/' + treinosarealizar.id).catch(function (error) {
+      if (error.response.status == 400) {
+        // console.log(error.response.data);
+        // console.log(error.response.status);
+        // console.log(error.response.headers);
+
+        Alert.alert(
+          'Atenção!',
+          'Não é possível iniciar um treino caso você já tenha algum treino em andamento.',
+          [ { text: 'OK' } ],
+          { cancelable: true },
+        )
+      }
+    });
   }
 
   async function finalizarTreino() {
 
     console.log(treinosarealizar.id)
+    const response5 = await api.put('/finalizar-treino/' + treinosarealizar.id).catch(function (error) {
+      if (error.response.status == 400) {
+        // console.log(error.response.data);
+        // console.log(error.response.status);
+        // console.log(error.response.headers);
 
-    const response5 = await api.put('/finalizar-treino/' + treinosarealizar.id)
-    // console.log(response4.status)
+        Alert.alert(
+          'Atenção!',
+          'Não é possível finalizar um treino caso você já tenha algum treino em andamento.',
+          [ { text: 'OK' } ],
+          { cancelable: true },
+        )
+      }
+    });
   }
 
   var renderListItem = ({ item }) => <ProductItem product={item} />

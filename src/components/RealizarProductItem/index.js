@@ -9,7 +9,8 @@ import { Container, ProductImage, InfoContainer, ProductName } from './styles'
 export default function RealizarProductItem({ product }) {
 
   const [treinorealizado, setTreinoRealizado] = useState([]);
-  const [refreshing, setRefreshing] = useState(false);
+  const [refreshing, setRefreshing]           = useState(false);
+  const [disabled, setDisabled]               = useState(false);
 
   useEffect(() => {
 
@@ -73,11 +74,9 @@ export default function RealizarProductItem({ product }) {
         label="Exercício Realizado?" 
         flexDirection="row" 
         labelStyle={{ fontWeight: 'bold' }}
+        disabled={disabled}
         onChange={() => (
           realizarExercicio()
-          // .then(() => {
-          //   navigation.navigate('RealizarExercicios')
-          // })
         )}
       />
       </InfoContainer>  
