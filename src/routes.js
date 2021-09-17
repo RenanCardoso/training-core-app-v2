@@ -13,6 +13,7 @@ const StackNavigator = createStackNavigator(
     FichaDeTreino,
     AuthLoading,
     RealizarExercicios,
+    SignIn: Welcome,
   },
   {
     initialRouteName: 'Home',

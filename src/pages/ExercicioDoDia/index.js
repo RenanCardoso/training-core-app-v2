@@ -13,8 +13,8 @@ const { width } = Dimensions.get('screen');
 import products from '../../constants/products';
 import { DataTable } from 'react-native-paper';
 import { StackActions, NavigationActions } from 'react-navigation'
-import RealizarExercicios from '../RealizarExercicios'
-import TodosExerciciosScreen from '../TodosExercicios'
+// import RealizarTodosExerciciosScreen from '../TodosExercicios'
+// import TodosExerciciosScreen from '../TodosExercicios'
 import ExerciciododiaScreen from '../ExercicioDoDia'
 
 import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
@@ -33,19 +33,30 @@ export default function ExercicioDoDia({ navigation }) {
   const [treinosarealizar, setTreinoARealizar] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
+  const [fichadetreino, setFichaDeTreino] = useState([]);
+  const [qtdexercicios, setQtdExercicios] = useState([]);
+  const [qtdcodexercicios, setQtdCodExercicios] = useState(0);
+  const [treinosporcodigo, setTreinosPorCodigo] = useState([]);
+  const [todostreinos, setTodosTreinos] = useState([]);
+  const [codrealizarexerc, setCodRealizarExerc] = useState([]);
+
+  const codigoexercicios = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+
   useEffect(() => {
 
     async function loadExercicioDoDia() {
 
       const response = await api.get('/ficha-de-treino')
 
-      const fichadetreino = response.data['data'][0]['id'];
+      const responsefichadetreino = await api.get('/ficha-de-treino')
+      setFichaDeTreino(response.data['data'][0]['id']);
 
       const response2 = await api.get('/ficha-de-treino/' + fichadetreino + '/treino-do-dia/')
       setData(response2.data);
       setCodExercicio(response2.data[0].codigo_treino);
 
-      const treino_realizado = 
+      const treino_realizado =
       {
         "ficha_de_treino_id": fichadetreino,
         "codigo_treino": codexercicio
@@ -54,11 +65,25 @@ export default function ExercicioDoDia({ navigation }) {
       setTreinoARealizar(response3.data);
     }
     loadExercicioDoDia();
+
+    async function loadTodosExercicios() {
+
+      const response4 = await api.get('/ficha-de-treino/' + fichadetreino + '/cont-total-exercicio-por-codigo/')
+      setQtdCodExercicios(response4.data);
+
+      const response5 = await api.get('/ficha-de-treino/' + fichadetreino + '/cont-exercicio-por-codigo/')
+      setQtdExercicios(response5.data);
+
+      const response6 = await api.get('/ficha-de-treino/' + fichadetreino + '/exercicio-por-codigo/')
+      setTodosTreinos(response6.data.treinos);
+    }
+    loadTodosExercicios();
+
   }, []);
 
   async function iniciarTreino() {
 
-    // console.log(treinosarealizar.id)
+    // console.log(treinosarealizar)
 
     const response4 = await api.put('/iniciar-treino/' + treinosarealizar.id).catch(function (error) {
       if (error.response.status == 400) {
@@ -69,7 +94,44 @@ export default function ExercicioDoDia({ navigation }) {
         Alert.alert(
           'Atenção!',
           'Não é possível iniciar um treino caso você já tenha algum treino em andamento.',
-          [ { text: 'OK' } ],
+          [{ text: 'OK' }],
+          { cancelable: true },
+        )
+      }
+    });
+  }
+
+  async function iniciarTreinos(codexercicio) {
+
+    // console.log(codexercicio)
+    setCodRealizarExerc(codexercicio)
+
+    var treino_realizado =
+    {
+      "ficha_de_treino_id": fichadetreino,
+      "codigo_treino": codexercicio
+    }
+
+    var response7 = await api.post('/consultar-treino-filtrado-codigo/', treino_realizado)
+    setTreinosPorCodigo(response7.data)
+
+    // console.log(treinosporcodigo)
+
+    var response8 = await api.post('/consultar-treino-a-realizar/', treino_realizado)
+    setTreinoARealizar(response8.data);
+
+    // console.log(treinosarealizar)
+
+    var response6 = await api.put('/iniciar-treino/' + treinosarealizar.id).catch(function (error) {
+      if (error.response.status == 400) {
+        // console.log(error.response.data);
+        // console.log(error.response.status);
+        // console.log(error.response.headers);
+
+        Alert.alert(
+          'Atenção!',
+          'Não é possível iniciar um treino caso você já tenha algum treino em andamento.',
+          [{ text: 'OK' }],
           { cancelable: true },
         )
       }
@@ -78,7 +140,7 @@ export default function ExercicioDoDia({ navigation }) {
 
   async function finalizarTreino() {
 
-    console.log(treinosarealizar.id)
+    // console.log(treinosarealizar.id)
     const response5 = await api.put('/finalizar-treino/' + treinosarealizar.id).catch(function (error) {
       if (error.response.status == 400) {
         // console.log(error.response.data);
@@ -88,7 +150,7 @@ export default function ExercicioDoDia({ navigation }) {
         Alert.alert(
           'Atenção!',
           'Não é possível finalizar um treino caso você já tenha algum treino em andamento.',
-          [ { text: 'OK' } ],
+          [{ text: 'OK' }],
           { cancelable: true },
         )
       }
@@ -117,7 +179,6 @@ export default function ExercicioDoDia({ navigation }) {
           <DataTable.Header style={styles.DataTableHeader}>
             <DataTable.Title style={styles.textTitulo}><Text style={styles.text} p>Cód Agrupamento: </Text></DataTable.Title>
             <DataTable.Title style={styles.textTitulo}><Text style={styles.text} p>{codexercicio != (undefined || null) ? codexercicio : ''}</Text></DataTable.Title>
-
           </DataTable.Header>
         </ DataTable>
         <ScrollView>
@@ -149,16 +210,11 @@ export default function ExercicioDoDia({ navigation }) {
     );
 
     return (
-      // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-
-
-
       <Container style={styles.DataTable}>
         <DataTable style={styles.fixToText}>
           <DataTable.Header style={styles.DataTableHeader}>
             <DataTable.Title style={styles.textTitulo}><Text style={styles.text} p>Cód Agrupamento: </Text></DataTable.Title>
             <DataTable.Title style={styles.textTitulo}><Text style={styles.text} p>{codexercicio != (undefined || null) ? codexercicio : ''}</Text></DataTable.Title>
-
           </DataTable.Header>
         </ DataTable>
         <ScrollView>
@@ -182,10 +238,10 @@ export default function ExercicioDoDia({ navigation }) {
                 Alert.alert(
                   'Treino Finalizado Com Sucesso!',
                   'Parabéns, você terminou o treino de hoje com sucesso! Volte amanhã e continue evoluindo.',
-                  [ { text: 'OK' } ],
+                  [{ text: 'OK' }],
                   { cancelable: false },
                 ),
-                navigation.navigate('TreinoDoDia')
+                  navigation.navigate('TreinoDoDia')
               })
             )}
           >
@@ -198,29 +254,112 @@ export default function ExercicioDoDia({ navigation }) {
     );
   }
 
-  function HomeScreen({ navigation }) {
+  function TodosExerciciosScreen({ navigation }) {
+
+    let treinoporcodigo = []
+
+    for (let i = 0; i < qtdcodexercicios; i++) {
+
+      treinoporcodigo.push(
+        <DataTable.Header style={styles.DataTableHeader}>
+          <DataTable.Title><Text style={styles.text} p>Cód Agrupamento: </Text></DataTable.Title>
+          <DataTable.Title style={styles.textTitulo}><Text style={styles.text} p>{codigoexercicios[i] != (undefined || null) ? codigoexercicios[i] : ''}</Text></DataTable.Title>
+          {/* <View style={styles.fixToText}> */}
+          <Button
+            color="success"
+            round size="small"
+            title="Iniciar Treino"
+            onPress={() => (
+              iniciarTreinos(codigoexercicios[i]).then(() => {
+                navigation.navigate('RealizarTodosExercicios')
+              })
+            )}
+          >Iniciar Treino
+          </Button>
+          {/* </View> */}
+        </DataTable.Header>
+      )
+    }
+
+    var renderListItems = ({ item }) => <ProductItem product={item} />
+    var renderListTreino = ({ item }) => <RealizarProductItem product={item} />
+
     return (
-      // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-      // <Button
-      // title="Go to Details"
-      // onPress={() => navigation.navigate('Details')}
-      // />
-      // </View>
+      <Container style={styles.DataTable}>
+        <ScrollView>
+          {treinoporcodigo}
+          <ProductList
+            data={todostreinos}
+            keyExtractor={item => String(item.id)}
+            renderItem={renderListItems}
+          // onRefresh={loadProducts}
+          // refreshing={refreshing}
+          />
+          {/* <ProductItem /> */}
+        </ScrollView>
+      </Container>
     );
   }
 
-  function DetailsScreen({ navigation }) {
+  function RealizarTodosExerciciosScreen({ navigation }) {
+    useFocusEffect(
+      React.useCallback(() => {
+        // alert('Entrei na tela');
+        // Do something when the screen is focused
+
+        // return () => {
+        //   alert('Screen was unfocused');
+        //   // Do something when the screen is unfocused
+        //   // Useful for cleanup functions
+        // };
+      }, [])
+    );
+
     return (
-      // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Details Screen</Text>
-      // <Button
-      // title="Go to Details... again"
-      // onPress={() => navigation.push('Details')}
-      // />
-      // </View>
+      <Container style={styles.DataTable}>
+        <DataTable style={styles.fixToText}>
+          <DataTable.Header style={styles.DataTableHeader}>
+            <DataTable.Title style={styles.textTitulo}><Text style={styles.text} p>Cód Agrupamento: </Text></DataTable.Title>
+            <DataTable.Title style={styles.textTitulo}><Text style={styles.text} p>{codrealizarexerc != (undefined || null) ? codrealizarexerc : ''}</Text></DataTable.Title>
+          </DataTable.Header>
+        </ DataTable>
+        <ScrollView>
+          <ProductList
+            data={treinosporcodigo}
+            keyExtractor={item => String(item.id)}
+            renderItem={renderListTreino}
+          // onRefresh={loadProducts}
+          // refreshing={refreshing}
+          />
+
+        </ScrollView>
+        <DataTable style={styles.fixToText}>
+
+          <Button
+            color="success"
+            round size="small"
+            title="Todos Treinos"
+            onPress={() => (
+              finalizarTreino().then(() => {
+                Alert.alert(
+                  'Treino Finalizado Com Sucesso!',
+                  'Parabéns, você terminou o treino de hoje com sucesso! Volte amanhã e continue evoluindo.',
+                  [{ text: 'OK' }],
+                  { cancelable: false },
+                ),
+                  navigation.navigate('TreinoDoDia')
+              })
+            )}
+          >
+            Finalizar Treino
+          </Button>
+        </ DataTable>
+
+      </Container>
+
     );
   }
+
   const Tab = createBottomTabNavigator();
   const TreinoDoDiaStack = createNativeStackNavigator();
   const HomeStack = createNativeStackNavigator();
@@ -268,7 +407,7 @@ export default function ExercicioDoDia({ navigation }) {
               // <HomeStack.Navigator>
               <HomeStack.Navigator screenOptions={{ headerShown: false }}>
                 <HomeStack.Screen name="TodosExerciciosScreen" component={TodosExerciciosScreen} />
-                <HomeStack.Screen name="Details" component={DetailsScreen} />
+                <HomeStack.Screen name="RealizarTodosExercicios" component={RealizarTodosExerciciosScreen} />
               </HomeStack.Navigator>
             )}
           </Tab.Screen>

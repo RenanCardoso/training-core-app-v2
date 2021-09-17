@@ -41,3 +41,28 @@ export function navigate(routeName, params) {
     }),
   );
 }
+
+export async function setTreinosPorCodigo(treinosporcodigo) {
+  console.log(treinosporcodigo)
+  try {
+    AsyncStorage.setItem('@ListApp:treinos', JSON.stringify(treinosporcodigo));
+  } catch (e) {
+    throw e;
+  }
+}
+
+export async function getTreinosPorCodigo() {
+  try {
+    return await AsyncStorage.getItem('@ListApp:treinos');
+  } catch (e) {
+    throw e;
+  }
+}
+
+// export async function setTreinosPorCodigo(treinosporcodigo) {
+//   setStateTreinosPorCodigo(treinosporcodigo);
+// }
+
+// export async function getTreinosPorCodigo() {
+//   return treinosporcodigo;
+// }

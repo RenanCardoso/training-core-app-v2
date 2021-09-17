@@ -27,7 +27,7 @@ export default function RealizarProductItem({ product }) {
       }
       const response3 = await api.post('/consultar-treino-a-realizar/', treino_realizado)
       setTreinoRealizado(response3.data);
-      // console.log(response3.data)
+      // console.log(treino_realizado)
     }
     loadTreino();
   }, []);
