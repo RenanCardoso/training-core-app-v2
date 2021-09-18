@@ -29,9 +29,6 @@ import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerI
 import { color } from 'react-native-reanimated'
 
 export default function Home(props) {
-  const [data, setData] = useState([]);
-  const [refreshing, setRefreshing] = useState(false);
-  const [loading, setLoading] = useState(false)
    
   async function signOut() {
 

@@ -14,6 +14,7 @@ const StackNavigator = createStackNavigator(
     AuthLoading,
     RealizarExercicios,
     SignIn: Welcome,
+    App: Home,
   },
   {
     initialRouteName: 'Home',

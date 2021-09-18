@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { TouchableOpacity, StyleSheet, Dimensions, ScrollView, Alert } from 'react-native'
 import PropTypes from 'prop-types'
 
@@ -42,31 +42,18 @@ export default function ExercicioDoDia({ navigation }) {
 
   const codigoexercicios = ['A', 'B', 'C', 'D', 'E', 'F'];
 
-
   useEffect(() => {
 
     async function loadExercicioDoDia() {
 
       const response = await api.get('/ficha-de-treino')
 
-      const responsefichadetreino = await api.get('/ficha-de-treino')
-      setFichaDeTreino(response.data['data'][0]['id']);
+      let fichadetreino = response.data['data'][0]['id'];
+      setFichaDeTreino(fichadetreino);
 
       const response2 = await api.get('/ficha-de-treino/' + fichadetreino + '/treino-do-dia/')
       setData(response2.data);
       setCodExercicio(response2.data[0].codigo_treino);
-
-      const treino_realizado =
-      {
-        "ficha_de_treino_id": fichadetreino,
-        "codigo_treino": codexercicio
-      }
-      const response3 = await api.post('/consultar-treino-a-realizar/', treino_realizado)
-      setTreinoARealizar(response3.data);
-    }
-    loadExercicioDoDia();
-
-    async function loadTodosExercicios() {
 
       const response4 = await api.get('/ficha-de-treino/' + fichadetreino + '/cont-total-exercicio-por-codigo/')
       setQtdCodExercicios(response4.data);
@@ -77,8 +64,8 @@ export default function ExercicioDoDia({ navigation }) {
       const response6 = await api.get('/ficha-de-treino/' + fichadetreino + '/exercicio-por-codigo/')
       setTodosTreinos(response6.data.treinos);
     }
-    loadTodosExercicios();
-
+    
+    loadExercicioDoDia();
   }, []);
 
   async function iniciarTreino() {
@@ -161,6 +148,33 @@ export default function ExercicioDoDia({ navigation }) {
   var renderListTreino = ({ item }) => <RealizarProductItem product={item} />
 
   function TreinoDoDiaScreen({ navigation }) {
+
+    // useEffect(() => {
+
+    //   async function loadExercicioDoDia() {
+
+    //     const response = await api.get('/ficha-de-treino')
+
+    //     const responsefichadetreino = await api.get('/ficha-de-treino')
+    //     setFichaDeTreino(response.data['data'][0]['id']);
+
+    //     const response2 = await api.get('/ficha-de-treino/' + fichadetreino + '/treino-do-dia/')
+    //     setData(response2.data);
+    //     setCodExercicio(response2.data[0].codigo_treino);
+
+    //     const treino_realizado =
+    //     {
+    //       "ficha_de_treino_id": fichadetreino,
+    //       "codigo_treino": codexercicio
+    //     }
+    //     const response3 = await api.post('/consultar-treino-a-realizar/', treino_realizado)
+    //     setTreinoARealizar(response3.data);
+    //   }
+
+    //   loadExercicioDoDia();
+    // }, [data]);
+
+
     return (
       <Container style={styles.DataTable}>
         <DataTable>
@@ -196,18 +210,6 @@ export default function ExercicioDoDia({ navigation }) {
   }
 
   function RealizarExerciciosScreen({ navigation }) {
-    useFocusEffect(
-      React.useCallback(() => {
-        // alert('Entrei na tela');
-        // Do something when the screen is focused
-
-        // return () => {
-        //   alert('Screen was unfocused');
-        //   // Do something when the screen is unfocused
-        //   // Useful for cleanup functions
-        // };
-      }, [])
-    );
 
     return (
       <Container style={styles.DataTable}>
@@ -255,6 +257,22 @@ export default function ExercicioDoDia({ navigation }) {
   }
 
   function TodosExerciciosScreen({ navigation }) {
+
+    // useEffect(() => {
+    //   async function loadTodosExercicios() {
+
+    //     const response4 = await api.get('/ficha-de-treino/' + fichadetreino + '/cont-total-exercicio-por-codigo/')
+    //     setQtdCodExercicios(response4.data);
+
+    //     const response5 = await api.get('/ficha-de-treino/' + fichadetreino + '/cont-exercicio-por-codigo/')
+    //     setQtdExercicios(response5.data);
+
+    //     const response6 = await api.get('/ficha-de-treino/' + fichadetreino + '/exercicio-por-codigo/')
+    //     setTodosTreinos(response6.data.treinos);
+    //   }
+
+    //   loadTodosExercicios();
+    // }, [todostreinos])
 
     let treinoporcodigo = []
 
