@@ -58,11 +58,3 @@ export async function getTreinosPorCodigo() {
     throw e;
   }
 }
-
-// export async function setTreinosPorCodigo(treinosporcodigo) {
-//   setStateTreinosPorCodigo(treinosporcodigo);
-// }
-
-// export async function getTreinosPorCodigo() {
-//   return treinosporcodigo;
-// }

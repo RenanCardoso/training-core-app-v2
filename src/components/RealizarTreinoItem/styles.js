@@ -10,7 +10,7 @@ export const Container = styled.View`
   padding: 10px;
 `;
 
-export const ProductImage = styled.Image`
+export const TreinoImage = styled.Image`
   height: 50px;
   width: 50px;
   border-radius: 50px;
@@ -23,7 +23,7 @@ export const InfoContainer = styled.View`
   margin-left: 10px;
 `;
 
-export const ProductName = styled.Text`
+export const TreinoName = styled.Text`
   font-weight: bold;
   font-size: 14px;
 `;

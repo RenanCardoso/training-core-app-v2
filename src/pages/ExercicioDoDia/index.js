@@ -1,45 +1,32 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { TouchableOpacity, StyleSheet, Dimensions, ScrollView, Alert, View } from 'react-native'
 import PropTypes from 'prop-types'
-
 import api from '../../services/api'
 import { deleteUser } from '../../utils'
-
-import { Container, Title, ButtonText, ProductList } from './styles'
+import { Container, Title, ButtonText, TreinoList } from './styles'
 import { Button, Block, Text, Input, theme } from 'galio-framework';
-import { Icon, Product, Tabs } from '../../components/';
-
-const { width } = Dimensions.get('screen');
-import products from '../../constants/products';
 import { DataTable } from 'react-native-paper';
-import { StackActions, NavigationActions } from 'react-navigation'
-// import RealizarTodosExerciciosScreen from '../TodosExercicios'
-// import TodosExerciciosScreen from '../TodosExercicios'
-import ExerciciododiaScreen from '../ExercicioDoDia'
-
 import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import ProductItem from '../../components/ProductItem'
-import RealizarProductItem from '../../components/RealizarProductItem'
+import TreinoItem from '../../components/TreinoItem'
+import RealizarTreinoItem from '../../components/RealizarTreinoItem'
 
+const { width } = Dimensions.get('screen');
 
 export default function ExercicioDoDia({ navigation }) {
   const [codexercicio, setCodExercicio] = useState([]);
   const [data, setData] = useState([]);
   const [treinosarealizar, setTreinoARealizar] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
-
   const [fichadetreino, setFichaDeTreino] = useState([]);
   const [qtdexercicios, setQtdExercicios] = useState([]);
   const [qtdcodexercicios, setQtdCodExercicios] = useState(0);
   const [treinosporcodigo, setTreinosPorCodigo] = useState([]);
   const [todostreinos, setTodosTreinos] = useState([]);
   const [codrealizarexerc, setCodRealizarExerc] = useState([]);
-
   const codigoexercicios = ['A', 'B', 'C', 'D', 'E', 'F'];
 
   useEffect(() => {
@@ -70,8 +57,6 @@ export default function ExercicioDoDia({ navigation }) {
 
   async function iniciarTreino() {
 
-    // console.log(treinosarealizar)
-
     const response4 = await api.put('/iniciar-treino/' + treinosarealizar.id).catch(function (error) {
       if (error.response.status == 400) {
         // console.log(error.response.data);
@@ -90,7 +75,6 @@ export default function ExercicioDoDia({ navigation }) {
 
   async function iniciarTreinos(codexercicio) {
 
-    // console.log(codexercicio)
     setCodRealizarExerc(codexercicio)
 
     var treino_realizado =
@@ -102,12 +86,8 @@ export default function ExercicioDoDia({ navigation }) {
     var response7 = await api.post('/consultar-treino-filtrado-codigo/', treino_realizado)
     setTreinosPorCodigo(response7.data)
 
-    // console.log(treinosporcodigo)
-
     var response8 = await api.post('/consultar-treino-a-realizar/', treino_realizado)
     setTreinoARealizar(response8.data);
-
-    // console.log(treinosarealizar)
 
     var response6 = await api.put('/iniciar-treino/' + treinosarealizar.id).catch(function (error) {
       if (error.response.status == 400) {
@@ -127,12 +107,8 @@ export default function ExercicioDoDia({ navigation }) {
 
   async function finalizarTreino() {
 
-    // console.log(treinosarealizar.id)
     const response5 = await api.put('/finalizar-treino/' + treinosarealizar.id).catch(function (error) {
       if (error.response.status == 400) {
-        // console.log(error.response.data);
-        // console.log(error.response.status);
-        // console.log(error.response.headers);
 
         Alert.alert(
           'Atenção!',
@@ -144,64 +120,38 @@ export default function ExercicioDoDia({ navigation }) {
     });
   }
 
-  var renderListItem = ({ item }) => <ProductItem product={item} />
-  var renderListTreino = ({ item }) => <RealizarProductItem product={item} />
+  var renderListItem = ({ item }) => <TreinoItem treino={item} />
+  var renderListTreino = ({ item }) => <RealizarTreinoItem treino={item} />
 
   function TreinoDoDiaScreen({ navigation }) {
-
-    // useEffect(() => {
-
-    //   async function loadExercicioDoDia() {
-
-    //     const response = await api.get('/ficha-de-treino')
-
-    //     const responsefichadetreino = await api.get('/ficha-de-treino')
-    //     setFichaDeTreino(response.data['data'][0]['id']);
-
-    //     const response2 = await api.get('/ficha-de-treino/' + fichadetreino + '/treino-do-dia/')
-    //     setData(response2.data);
-    //     setCodExercicio(response2.data[0].codigo_treino);
-
-    //     const treino_realizado =
-    //     {
-    //       "ficha_de_treino_id": fichadetreino,
-    //       "codigo_treino": codexercicio
-    //     }
-    //     const response3 = await api.post('/consultar-treino-a-realizar/', treino_realizado)
-    //     setTreinoARealizar(response3.data);
-    //   }
-
-    //   loadExercicioDoDia();
-    // }, [data]);
-
 
     return (
       <Container style={styles.DataTable}>
         <DataTable>
-            <DataTable.Header style={styles.DataTableHeader}>
+          <DataTable.Header style={styles.DataTableHeader}>
             <View style={styles.title}>
-            <DataTable.Title><Text style={styles.text} p>Treino do Dia: </Text></DataTable.Title>
-          </View>
-            <DataTable.Title style={styles.textTitulo}><Text style={styles.text} p>{codexercicio != (undefined || null) ? codexercicio : ''}</Text></DataTable.Title>
+              <DataTable.Title><Text style={styles.text} p>Treino do Dia: </Text></DataTable.Title>
+            </View>
+            <DataTable.Title style={styles.text}><Text style={styles.text} p>{codexercicio != (undefined || null) ? codexercicio : ''}</Text></DataTable.Title>
             <View style={styles.fixToText}>
-            <Button
-              color="success"
-              round size="small"
-              onPress={() => (
-                iniciarTreino().then(() => {
-                  navigation.navigate('RealizarExercicios')
-                })
-              )}
-            >Iniciar Treino</Button>
-          </View>
+              <Button
+                color="success"
+                round size="small"
+                onPress={() => (
+                  iniciarTreino().then(() => {
+                    navigation.navigate('RealizarExercicios')
+                  })
+                )}
+              >Iniciar Treino</Button>
+            </View>
           </DataTable.Header>
         </ DataTable>
         <ScrollView>
-          <ProductList
+          <TreinoList
             data={data}
             keyExtractor={item => String(item.id)}
             renderItem={renderListItem}
-          // onRefresh={loadProducts}
+          // onRefresh={loadTreinos}
           // refreshing={refreshing}
           />
 
@@ -216,16 +166,18 @@ export default function ExercicioDoDia({ navigation }) {
       <Container style={styles.DataTable}>
         <DataTable style={styles.fixToText}>
           <DataTable.Header style={styles.DataTableHeader}>
-            <DataTable.Title style={styles.textTitulo}><Text style={styles.text} p>Treino: </Text></DataTable.Title>
+            <View style={styles.title}>
+              <DataTable.Title><Text style={styles.text} p>Treino: </Text></DataTable.Title>
+            </View>
             <DataTable.Title style={styles.textTitulo}><Text style={styles.text} p>{codexercicio != (undefined || null) ? codexercicio : ''}</Text></DataTable.Title>
           </DataTable.Header>
         </ DataTable>
         <ScrollView>
-          <ProductList
+          <TreinoList
             data={data}
             keyExtractor={item => String(item.id)}
             renderItem={renderListTreino}
-          // onRefresh={loadProducts}
+          // onRefresh={loadTreinos}
           // refreshing={refreshing}
           />
 
@@ -259,22 +211,6 @@ export default function ExercicioDoDia({ navigation }) {
 
   function TodosExerciciosScreen({ navigation }) {
 
-    // useEffect(() => {
-    //   async function loadTodosExercicios() {
-
-    //     const response4 = await api.get('/ficha-de-treino/' + fichadetreino + '/cont-total-exercicio-por-codigo/')
-    //     setQtdCodExercicios(response4.data);
-
-    //     const response5 = await api.get('/ficha-de-treino/' + fichadetreino + '/cont-exercicio-por-codigo/')
-    //     setQtdExercicios(response5.data);
-
-    //     const response6 = await api.get('/ficha-de-treino/' + fichadetreino + '/exercicio-por-codigo/')
-    //     setTodosTreinos(response6.data.treinos);
-    //   }
-
-    //   loadTodosExercicios();
-    // }, [todostreinos])
-
     let treinoporcodigo = []
 
     for (let i = 0; i < qtdcodexercicios; i++) {
@@ -303,54 +239,43 @@ export default function ExercicioDoDia({ navigation }) {
       )
     }
 
-    var renderListItems = ({ item }) => <ProductItem product={item} />
-    var renderListTreino = ({ item }) => <RealizarProductItem product={item} />
+    var renderListItems = ({ item }) => <TreinoItem treino={item} />
+    var renderListTreino = ({ item }) => <RealizarTreinoItem treino={item} />
 
     return (
       <Container style={styles.DataTable}>
         <ScrollView>
           {treinoporcodigo}
-          <ProductList
+          <TreinoList
             data={todostreinos}
             keyExtractor={item => String(item.id)}
             renderItem={renderListItems}
-          // onRefresh={loadProducts}
+          // onRefresh={loadTreinos}
           // refreshing={refreshing}
           />
-          {/* <ProductItem /> */}
         </ScrollView>
       </Container>
     );
   }
 
   function RealizarTodosExerciciosScreen({ navigation }) {
-    useFocusEffect(
-      React.useCallback(() => {
-        // alert('Entrei na tela');
-        // Do something when the screen is focused
-
-        // return () => {
-        //   alert('Screen was unfocused');
-        //   // Do something when the screen is unfocused
-        //   // Useful for cleanup functions
-        // };
-      }, [])
-    );
 
     return (
       <Container style={styles.DataTable}>
         <DataTable style={styles.fixToText}>
           <DataTable.Header style={styles.DataTableHeader}>
-            <DataTable.Title style={styles.textTitulo}><Text style={styles.text} p>Treino: </Text></DataTable.Title>
+            <View style={styles.title}>
+              <DataTable.Title><Text style={styles.text} p>Treino: </Text></DataTable.Title>
+            </View>
             <DataTable.Title style={styles.textTitulo}><Text style={styles.text} p>{codrealizarexerc != (undefined || null) ? codrealizarexerc : ''}</Text></DataTable.Title>
           </DataTable.Header>
         </ DataTable>
         <ScrollView>
-          <ProductList
+          <TreinoList
             data={treinosporcodigo}
             keyExtractor={item => String(item.id)}
             renderItem={renderListTreino}
-          // onRefresh={loadProducts}
+          // onRefresh={loadTreinos}
           // refreshing={refreshing}
           />
 
@@ -378,7 +303,6 @@ export default function ExercicioDoDia({ navigation }) {
         </ DataTable>
 
       </Container>
-
     );
   }
 
@@ -405,7 +329,6 @@ export default function ExercicioDoDia({ navigation }) {
                 iconName = focused ? 'arm-flex' : 'arm-flex';
               }
 
-              // You can return any component that you like here!
               return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
             },
             tabBarActiveTintColor: 'blue',
@@ -511,7 +434,7 @@ const styles = StyleSheet.create({
     borderRightWidth: 0.3,
     borderRightColor: theme.COLORS.MUTED,
   },
-  products: {
+  treinos: {
     width: width - theme.SIZES.BASE * 2,
     paddingVertical: theme.SIZES.BASE * 2,
   },
@@ -525,7 +448,6 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#ffffff",
-    fontSize: 18
   },
   textTitulo: {
     color: "#ffffff",

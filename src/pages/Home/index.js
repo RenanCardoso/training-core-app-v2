@@ -1,32 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { TouchableOpacity, StyleSheet, Dimensions, ScrollView, Alert } from 'react-native'
 import PropTypes from 'prop-types'
-import api from '../../services/api'
 import { deleteUser } from '../../utils'
 import { Container, Title, ButtonText, ProductList } from './styles'
 import { Button, Block, Text, Input, View, theme } from 'galio-framework';
-const { width } = Dimensions.get('screen');
-import products from '../../constants/products';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Icon, Header, DrawerCustomItem } from '../../components';
-import { Images, materialTheme } from "../../constants";
 import { StackActions, NavigationActions } from 'react-navigation'
-import { StatusBar, ActivityIndicator, AsyncStorage } from 'react-native'
-import CustomDrawerContent from '../../navigation/Menu';
-import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import FichadeTreinoScreen from '../FichaDeTreino'
-import MeusDadosScreen from '../MeusDados/'
 import AvaliacaoMedicaScreen from '../AvaliacaoMedica/'
-import TodosExerciciosScreen from '../TodosExercicios/'
 import ExercicioDoDiaScreen from '../ExercicioDoDia/'
-import AuthLoading from '../AuthLoadingScreen'
-import RealizarExercicios from '../RealizarExercicios'
-
-
-
+const { width } = Dimensions.get('screen');
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem, } from '@react-navigation/drawer';
-import { color } from 'react-native-reanimated'
 
 export default function Home(props) {
    
@@ -99,23 +84,6 @@ export default function Home(props) {
             ),
           }}
         />
-        {/* <Drawer.Screen
-          name="Todos Os Treinos"
-          component={TodosExerciciosScreen}
-          options={{
-            drawerLabel: ({ focused, color }) => (
-              <Text color={focused ? "#ffffff" : "#ffffff"}>Todos Os Treinos</Text>
-            ),
-            drawerIcon: ({ focused, size }) => (
-              <MaterialCommunityIcons
-                name="arm-flex"
-                size={size}
-                color={focused ? "#ffffff" : theme.COLORS.MUTED}
-                style={{ marginLeft: 4, marginRight: 4 }}
-              />
-            ),
-          }}
-        /> */}
         <Drawer.Screen
           name="Ficha De Treino"
           component={FichadeTreinoScreen}

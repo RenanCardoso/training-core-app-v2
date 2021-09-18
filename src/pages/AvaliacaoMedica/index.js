@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { TouchableOpacity, StyleSheet, Dimensions, ScrollView } from 'react-native'
+import { TouchableOpacity, StyleSheet, Dimensions, ScrollView, View } from 'react-native'
 import PropTypes from 'prop-types'
-
 import api from '../../services/api'
 import { deleteUser } from '../../utils'
-
 import { Container, Title, ButtonText, ProductList } from './styles'
 import { Button, Block, Text, Input, theme } from 'galio-framework';
-import { Icon, Product, Tabs } from '../../components/';
-
-const { width } = Dimensions.get('screen');
-import products from '../../constants/products';
 import { DataTable } from 'react-native-paper';
+const { width } = Dimensions.get('screen');
 
 export default function AvaliacaoMedica() {
   const [data, setData] = useState([]);
@@ -22,9 +17,6 @@ export default function AvaliacaoMedica() {
     async function loadAvaliacaoMedica() {
 
       const response = await api.get('/avaliacao-medica')
-
-      // console.log(response.data['data'][0])
-
       setData(response.data['data'][0]);
     }
 
@@ -36,106 +28,129 @@ export default function AvaliacaoMedica() {
 
       <ScrollView>
         <DataTable>
-          {/* <DataTable.Header>
-          <DataTable.Title><Text style={styles.text} p>{data['nome'] != (undefined || null) ? data['nome'] : ''}</Text></DataTable.Title>
-        </DataTable.Header> */}
+
+          <DataTable.Header style={styles.DataTableHeader}>
+              <DataTable.Title style={styles.textTitle}><Text style={styles.text} p>Ficha Técnica da Avaliação Médica</Text></DataTable.Title>
+            </DataTable.Header>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Altura </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{data['altura'] != (undefined || null) ? data['altura'] : ''}</Text></DataTable.Cell>
+            <View style={styles.fixToText}>
+              <DataTable.Cell><Text style={styles.text}>{data['altura'] != (undefined || null) ? data['altura'] : ''}</Text></DataTable.Cell>
+            </View>
           </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Peso </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{data['peso'] != (undefined || null) ? data['peso'] : ''}</Text></DataTable.Cell>
+            <View style={styles.fixToText}>
+              <DataTable.Cell><Text style={styles.text}>{data['peso'] != (undefined || null) ? data['peso'] : ''}</Text></DataTable.Cell>
+            </View>
           </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>IMC </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{data['imc'] != (undefined || null) ? data['imc'] : ''}</Text></DataTable.Cell>
+            <View style={styles.fixToText}>
+              <DataTable.Cell><Text style={styles.text}>{data['imc'] != (undefined || null) ? data['imc'] : ''}</Text></DataTable.Cell>
+            </View>
           </DataTable.Row>
 
           <DataTable.Row>
-            <DataTable.Cell><Text style={styles.text}>Medida Biceps Direito </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{data['medidabicepsdir'] != (undefined || null) ? data['medidabicepsdir'] : ''}</Text></DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>Medida do Biceps Direito </Text></DataTable.Cell>
+            <View style={styles.fixToText}>
+              <DataTable.Cell><Text style={styles.text}>{data['medidabicepsdir'] != (undefined || null) ? data['medidabicepsdir'] : ''}</Text></DataTable.Cell>
+            </View>
           </DataTable.Row>
 
           <DataTable.Row>
-            <DataTable.Cell><Text style={styles.text}>Medida Biceps Esquerdo </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{data['medidabicepsesq'] != (undefined || null) ? data['medidabicepsesq'] : ''}</Text></DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>Medida do Biceps Esquerdo </Text></DataTable.Cell>
+            <View style={styles.fixToText}>
+              <DataTable.Cell><Text style={styles.text}>{data['medidabicepsesq'] != (undefined || null) ? data['medidabicepsesq'] : ''}</Text></DataTable.Cell>
+            </View>
           </DataTable.Row>
 
           <DataTable.Row>
-            <DataTable.Cell><Text style={styles.text}>Medida Costas </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{data['medidacostas'] != (undefined || null) ? data['medidacostas'] : ''}</Text></DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>Medida das Costas </Text></DataTable.Cell>
+            <View style={styles.fixToText}>
+              <DataTable.Cell><Text style={styles.text}>{data['medidacostas'] != (undefined || null) ? data['medidacostas'] : ''}</Text></DataTable.Cell>
+            </View>
           </DataTable.Row>
 
           <DataTable.Row>
-            <DataTable.Cell><Text style={styles.text}>Medida Coxa Direita </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{data['medidacoxadir'] != (undefined || null) ? data['medidacoxadir'] : ''}</Text></DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>Medida da Coxa Direita </Text></DataTable.Cell>
+            <View style={styles.fixToText}>
+              <DataTable.Cell><Text style={styles.text}>{data['medidacoxadir'] != (undefined || null) ? data['medidacoxadir'] : ''}</Text></DataTable.Cell>
+            </View>
           </DataTable.Row>
 
           <DataTable.Row>
-            <DataTable.Cell><Text style={styles.text}>Medida Coxa Esquerda </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{data['medidacoxaesq'] != (undefined || null) ? data['medidacoxaesq'] : ''}</Text></DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>Medida da Coxa Esquerda </Text></DataTable.Cell>
+            <View style={styles.fixToText}>
+              <DataTable.Cell><Text style={styles.text}>{data['medidacoxaesq'] != (undefined || null) ? data['medidacoxaesq'] : ''}</Text></DataTable.Cell>
+            </View>
           </DataTable.Row>
 
           <DataTable.Row>
-            <DataTable.Cell><Text style={styles.text}>Medida Ombro </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{data['medidaombro'] != (undefined || null) ? data['medidaombro'] : ''}</Text></DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>Medida do Ombro </Text></DataTable.Cell>
+            <View style={styles.fixToText}>
+              <DataTable.Cell><Text style={styles.text}>{data['medidaombro'] != (undefined || null) ? data['medidaombro'] : ''}</Text></DataTable.Cell>
+            </View>
           </DataTable.Row>
 
           <DataTable.Row>
-            <DataTable.Cell><Text style={styles.text}>Medida Panturrilha Direito </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{data['medidapanturrilhadir'] != (undefined || null) ? data['medidapanturrilhadir'] : ''}</Text></DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>Medida da Panturrilha Direita </Text></DataTable.Cell>
+            <View style={styles.fixToText}>
+              <DataTable.Cell><Text style={styles.text}>{data['medidapanturrilhadir'] != (undefined || null) ? data['medidapanturrilhadir'] : ''}</Text></DataTable.Cell>
+            </View>
           </DataTable.Row>
 
           <DataTable.Row>
-            <DataTable.Cell><Text style={styles.text}>Medida Panturrilha Esquerdo </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{data['medidapanturrilhaesq'] != (undefined || null) ? data['medidapanturrilhaesq'] : ''}</Text></DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>Medida da Panturrilha Esquerda </Text></DataTable.Cell>
+            <View style={styles.fixToText}>
+              <DataTable.Cell><Text style={styles.text}>{data['medidapanturrilhaesq'] != (undefined || null) ? data['medidapanturrilhaesq'] : ''}</Text></DataTable.Cell>
+            </View>
           </DataTable.Row>
 
           <DataTable.Row>
-            <DataTable.Cell><Text style={styles.text}>Medida Triceps Direito </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{data['medidatricepsdir'] != (undefined || null) ? data['medidatricepsdir'] : ''}</Text></DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>Medida do Triceps Direito </Text></DataTable.Cell>
+            <View style={styles.fixToText}>
+              <DataTable.Cell><Text style={styles.text}>{data['medidatricepsdir'] != (undefined || null) ? data['medidatricepsdir'] : ''}</Text></DataTable.Cell>
+            </View>
           </DataTable.Row>
 
           <DataTable.Row>
-            <DataTable.Cell><Text style={styles.text}>Medida Triceps Esquerdo </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{data['medidatricepsesq'] != (undefined || null) ? data['medidatricepsesq'] : ''}</Text></DataTable.Cell>
+            <DataTable.Cell><Text style={styles.text}>Medida do Triceps Esquerdo </Text></DataTable.Cell>
+            <View style={styles.fixToText}>
+              <DataTable.Cell><Text style={styles.text}>{data['medidatricepsesq'] != (undefined || null) ? data['medidatricepsesq'] : ''}</Text></DataTable.Cell>
+            </View>
           </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Percentual de Gordura Corporal </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{data['percgorduracorporal'] != (undefined || null) ? data['percgorduracorporal'] : ''}</Text></DataTable.Cell>
+            <View style={styles.fixToText}>
+              <DataTable.Cell><Text style={styles.text}>{data['percgorduracorporal'] != (undefined || null) ? data['percgorduracorporal'] : ''}</Text></DataTable.Cell>
+            </View>
           </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Possui Lesão? </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{data['flpossuilesao'] != (undefined || null) ? data['flpossuilesao'] : ''}</Text></DataTable.Cell>
+            <View style={styles.fixToText}>
+              <DataTable.Cell><Text style={styles.text}>{data['flpossuilesao'] != (undefined || null) ? data['flpossuilesao'] : ''}</Text></DataTable.Cell>
+            </View>
           </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Deficiente Físico? </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{data['fldeficiente'] != (undefined || null) ? data['fldeficiente'] : ''}</Text></DataTable.Cell>
+            <View style={styles.fixToText}>
+              <DataTable.Cell><Text style={styles.text}>{data['fldeficiente'] != (undefined || null) ? data['fldeficiente'] : ''}</Text></DataTable.Cell>
+            </View>
           </DataTable.Row>
 
           <DataTable.Row>
             <DataTable.Cell><Text style={styles.text}>Observação </Text></DataTable.Cell>
-            <DataTable.Cell><Text style={styles.text}>{data['observacao'] != (undefined || null) ? data['observacao'] : ''}</Text></DataTable.Cell>
+            <View style={styles.fixToText}>
+              <DataTable.Cell><Text style={styles.text}>{data['observacao'] != (undefined || null) ? data['observacao'] : ''}</Text></DataTable.Cell>
+            </View>
           </DataTable.Row>
-          {/* <DataTable.Pagination
-      page={page}
-      numberOfPages={3}
-      onPageChange={(page) => setPage(page)}
-      label="1-2 of 6"
-      optionsPerPage={optionsPerPage}
-      itemsPerPage={itemsPerPage}
-      setItemsPerPage={setItemsPerPage}
-      showFastPagination
-      optionsLabel={'Rows per page'}
-    /> */}
-
         </DataTable>
       </ScrollView>
     </Container>
@@ -221,7 +236,19 @@ const styles = StyleSheet.create({
     marginBottom: 2,
     backgroundColor: '#45546c',
   },
+  DataTableHeader: {
+    backgroundColor: '#3c4b64',
+  },
   text: {
-    color: "#ffffff"
-  }
+    color: "#ffffff",
+  },
+  textTitle: {
+    color: "#ffffff",
+    fontSize: 18
+  },
+  fixToText: {
+    marginRight: 50
+    // justifyContent: 'center',
+    // alignItems: 'center'
+  },
 });

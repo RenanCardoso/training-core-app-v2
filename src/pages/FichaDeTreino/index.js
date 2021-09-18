@@ -26,7 +26,6 @@ export default function FichaDeTreino() {
       const response = await api.get('/ficha-de-treino')
 
       setData(response.data['data'][0]);
-      // console.log(response.data['data'][0]['iddificuldadetreino'])
 
       setdificuldadetreino(response.data['data'][0]['iddificuldadetreino']);
       setObjTreino(response.data['data'][0]['idobjetivotreino']);
@@ -82,19 +81,6 @@ export default function FichaDeTreino() {
           <DataTable.Cell><Text style={styles.text}>Status </Text></DataTable.Cell>
           <DataTable.Cell><Text style={styles.text}>{data['status'] != (undefined || null) ? data['status'] : ''}</Text></DataTable.Cell>
         </DataTable.Row>
-
-        {/* <DataTable.Pagination
-        page={page}
-        numberOfPages={3}
-        onPageChange={(page) => setPage(page)}
-        label="1-2 of 6"
-        optionsPerPage={optionsPerPage}
-        itemsPerPage={itemsPerPage}
-        setItemsPerPage={setItemsPerPage}
-        showFastPagination
-        optionsLabel={'Rows per page'}
-      /> */}
-      
       </DataTable>
     </Container>
   );
