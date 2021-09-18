@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { TouchableOpacity, StyleSheet, Dimensions, ScrollView, Alert } from 'react-native'
+import { TouchableOpacity, StyleSheet, Dimensions, ScrollView, Alert, View } from 'react-native'
 import PropTypes from 'prop-types'
 
 import api from '../../services/api'
 import { deleteUser } from '../../utils'
 
 import { Container, Title, ButtonText, ProductList } from './styles'
-import { Button, Block, Text, Input, theme, View } from 'galio-framework';
+import { Button, Block, Text, Input, theme } from 'galio-framework';
 import { Icon, Product, Tabs } from '../../components/';
 
 const { width } = Dimensions.get('screen');
@@ -64,7 +64,7 @@ export default function ExercicioDoDia({ navigation }) {
       const response6 = await api.get('/ficha-de-treino/' + fichadetreino + '/exercicio-por-codigo/')
       setTodosTreinos(response6.data.treinos);
     }
-    
+
     loadExercicioDoDia();
   }, []);
 
@@ -178,7 +178,12 @@ export default function ExercicioDoDia({ navigation }) {
     return (
       <Container style={styles.DataTable}>
         <DataTable>
-          <DataTable style={styles.fixToText}>
+            <DataTable.Header style={styles.DataTableHeader}>
+            <View style={styles.title}>
+            <DataTable.Title><Text style={styles.text} p>Treino do Dia: </Text></DataTable.Title>
+          </View>
+            <DataTable.Title style={styles.textTitulo}><Text style={styles.text} p>{codexercicio != (undefined || null) ? codexercicio : ''}</Text></DataTable.Title>
+            <View style={styles.fixToText}>
             <Button
               color="success"
               round size="small"
@@ -188,11 +193,7 @@ export default function ExercicioDoDia({ navigation }) {
                 })
               )}
             >Iniciar Treino</Button>
-          </ DataTable>
-
-          <DataTable.Header style={styles.DataTableHeader}>
-            <DataTable.Title style={styles.textTitulo}><Text style={styles.text} p>Cód Agrupamento: </Text></DataTable.Title>
-            <DataTable.Title style={styles.textTitulo}><Text style={styles.text} p>{codexercicio != (undefined || null) ? codexercicio : ''}</Text></DataTable.Title>
+          </View>
           </DataTable.Header>
         </ DataTable>
         <ScrollView>
@@ -215,7 +216,7 @@ export default function ExercicioDoDia({ navigation }) {
       <Container style={styles.DataTable}>
         <DataTable style={styles.fixToText}>
           <DataTable.Header style={styles.DataTableHeader}>
-            <DataTable.Title style={styles.textTitulo}><Text style={styles.text} p>Cód Agrupamento: </Text></DataTable.Title>
+            <DataTable.Title style={styles.textTitulo}><Text style={styles.text} p>Treino: </Text></DataTable.Title>
             <DataTable.Title style={styles.textTitulo}><Text style={styles.text} p>{codexercicio != (undefined || null) ? codexercicio : ''}</Text></DataTable.Title>
           </DataTable.Header>
         </ DataTable>
@@ -280,21 +281,24 @@ export default function ExercicioDoDia({ navigation }) {
 
       treinoporcodigo.push(
         <DataTable.Header style={styles.DataTableHeader}>
-          <DataTable.Title><Text style={styles.text} p>Cód Agrupamento: </Text></DataTable.Title>
+          <View style={styles.title}>
+            <DataTable.Title><Text style={styles.text} p>Treino: </Text></DataTable.Title>
+          </View>
+
           <DataTable.Title style={styles.textTitulo}><Text style={styles.text} p>{codigoexercicios[i] != (undefined || null) ? codigoexercicios[i] : ''}</Text></DataTable.Title>
-          {/* <View style={styles.fixToText}> */}
-          <Button
-            color="success"
-            round size="small"
-            title="Iniciar Treino"
-            onPress={() => (
-              iniciarTreinos(codigoexercicios[i]).then(() => {
-                navigation.navigate('RealizarTodosExercicios')
-              })
-            )}
-          >Iniciar Treino
-          </Button>
-          {/* </View> */}
+          <View style={styles.fixToText}>
+            <Button
+              color="success"
+              round size="small"
+              title="Iniciar Treino"
+              onPress={() => (
+                iniciarTreinos(codigoexercicios[i]).then(() => {
+                  navigation.navigate('RealizarTodosExercicios')
+                })
+              )}
+            >Iniciar Treino
+            </Button>
+          </View>
         </DataTable.Header>
       )
     }
@@ -337,7 +341,7 @@ export default function ExercicioDoDia({ navigation }) {
       <Container style={styles.DataTable}>
         <DataTable style={styles.fixToText}>
           <DataTable.Header style={styles.DataTableHeader}>
-            <DataTable.Title style={styles.textTitulo}><Text style={styles.text} p>Cód Agrupamento: </Text></DataTable.Title>
+            <DataTable.Title style={styles.textTitulo}><Text style={styles.text} p>Treino: </Text></DataTable.Title>
             <DataTable.Title style={styles.textTitulo}><Text style={styles.text} p>{codrealizarexerc != (undefined || null) ? codrealizarexerc : ''}</Text></DataTable.Title>
           </DataTable.Header>
         </ DataTable>
@@ -521,7 +525,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#ffffff",
-    fontSize: 20
+    fontSize: 18
   },
   textTitulo: {
     color: "#ffffff",
