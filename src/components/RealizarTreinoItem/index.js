@@ -23,7 +23,7 @@ export default function RealizarTreinoItem({ treino }) {
       const treino_realizado =
       {
         "ficha_de_treino_id": fichadetreino,
-        "codigo_treino": product.codigo_treino
+        "codigo_treino": treino.codigo_treino
       }
       const response3 = await api.post('/consultar-treino-a-realizar/', treino_realizado)
       setTreinoRealizado(response3.data);
@@ -53,14 +53,14 @@ export default function RealizarTreinoItem({ treino }) {
       <InfoContainer>
         <TreinoName>{treino.codigo_treino}</TreinoName>
         <Text>Exercício: {treino.exercicio_id.nome}</Text>
-        <Text>Descrição: {treino.exercicio_id.descricao}</Text>
         <Text>Aparelho: {treino.exercicio_id.idaparelho}</Text>
         <Text>Agrupamento Muscular: {treino.exercicio_id.idagrupamentomusc}</Text>
         <Text>Ordem: {treino.ordem}</Text>
         <Text>Séries: {treino.series}</Text>
         <Text>Repetições: {treino.repeticoes}</Text>
-        <Text>Tempo de Descanso: {treino.tempodescansoseg}</Text>
-        <Text>Observação: {treino.observacao}{'\n'}</Text>
+        <Text>{treino.observacao != (undefined || null) ? 'Observação:' + treino.observacao : ''}</Text>
+        <Text>Tempo de Descanso: {treino.tempodescansoseg} (Segundos)</Text>
+        <Text>Como Realizar: {treino.exercicio_id.descricao}</Text>
 
         <Checkbox
           color="success"

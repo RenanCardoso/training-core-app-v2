@@ -1,7 +1,6 @@
 import styled from 'styled-components/native'
 
 export const Container = styled.View`
-  flex: 1;
   background-color: #eeeeee;
   elevation: 3;
   flex-direction: row;
@@ -19,8 +18,10 @@ export const TreinoImage = styled.Image`
 
 export const InfoContainer = styled.View`
   flex-direction: column;
-  margin-top: 5px;
-  margin-left: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 5px;
+  margin-right: 65px;
 `;
 
 export const TreinoName = styled.Text`
