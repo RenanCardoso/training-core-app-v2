@@ -6,7 +6,7 @@ import { getUser, navigate, deleteUser } from '../utils'
 
 const api = axios.create({
   // baseURL: 'http://192.168.31.188:8001/api',
-   baseURL: 'http://192.168.1.7:8001/api',
+   baseURL: 'http://192.168.1.5:8001/api',
   // baseURL: 'http://192.168.0.107:8001/api',
   headers: {
     'Content-Type': 'application/json',

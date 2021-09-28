@@ -11,3 +11,18 @@ Aplicativo Móvel para Acompanhamento e Gerenciamento de
 Treino de Academia.
 
 Resumo. Este trabalho propõe o desenvolvimento de um sistema integrado e apoiado por aplicativo móvel para que alunos de academia e praticante de musculação possam de forma fácil e intuitiva não somente verificar qual é o seu treino do dia ou da semana, mas que possam também aprender mais sobre as suas atividades e ter um melhor acompanhamento dos seus instrutores, para que junto com o apoio de relatórios e outras ferramentas consigam extrair o máximo de cada pessoa, visando diminuir também o problema de acompanhamento específico para cada aluno.
+
+### Instalação
+
+<p>
+Este aplicativo precisa do Node.js >= 14.18 instalado, junto com o NPM e EXPO CLI para que você possa instalar o react-native-cli para poder executar os comandos abaixo. Além disso, será necessário que você tenha todo o ambiente necessário para executar o código nativo do Android ou IOS ou essas duas plataformas. Se precisar de ajuda para configurar seu ambiente, basta seguir as instruções deste tutorial.
+</p>
+<p> Primeiro use o clone git depois disso </p>
+
+```
+$ cd training-core-app-v2
+$ npm install i 
+// Ou você pode usar Yarn
+$ yarn install
+// Comando para executar o aplicativo
+$ react-native run-android
