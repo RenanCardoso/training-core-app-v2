@@ -26,3 +26,13 @@ $ npm install i
 $ yarn install
 // Comando para executar o aplicativo
 $ react-native run-android
+
+<h5>Uso</h5> 
+# iniciar servidor local <br>
+$ expo start
+
+<p> No terminal digite "a" para abrir a aplicação no seu emulador Android  </p>
+
+<p> Credenciais de acesso ao App: </p>
+<p> E-mail: renancardoso2401@gmail.com </p>
+<p> Senha: 123456 </p>

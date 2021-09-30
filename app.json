@@ -1,7 +1,6 @@
 {
   "name": "APIReactNative",
   "displayName": "APIReactNative",
-  
   "expo": {
     "name": "APIReactNative",
     "displayName": "APIReactNative",
@@ -27,7 +26,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "io.expo.trainingcorev1"
     },
     "web": {
       "favicon": "./assets/favicon.png"
